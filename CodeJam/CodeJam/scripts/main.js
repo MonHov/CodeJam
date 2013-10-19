@@ -29,6 +29,7 @@ define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Ph
 
         //game.stage.disablePauseScreen = true;
         game.load.image('mario', 'assets/player.mario.png');
+        game.load.image('otis-small', 'assets/player.otis.small.png');
     }
 
     function create() {
@@ -45,7 +46,8 @@ define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Ph
 
         layer.resizeWorld();       
 
-        var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
+        //var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
+        var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'otis-small');
         player = new localPlayer(playerSprite, game, socket);
     }
 
