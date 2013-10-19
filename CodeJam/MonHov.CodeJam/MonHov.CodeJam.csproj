@@ -26,6 +26,7 @@
     <Content Include="app.js">
       <DependentUpon>app.ts</DependentUpon>
     </Content>
+    <Content Include="entities\Player.ts" />
     <Content Include="lib\phaser-fx.d.ts" />
     <Content Include="lib\phaser-fx.js" />
     <Content Include="lib\phaser.d.ts" />
@@ -186,7 +187,6 @@
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
-    <Content Include="Whatever.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\textures\entities\" />
