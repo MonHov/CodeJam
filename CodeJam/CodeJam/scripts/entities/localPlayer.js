@@ -10,16 +10,16 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         player.prototype.update.apply(this, position);
 
         if (this.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-            this.sprite.body.acceleration.x += 100;
+            this.sprite.body.velocity.x += 100;
             this.sprite.scale.x = -1;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.RIGHT)) {
-            this.sprite.body.acceleration.x = 0;
+            this.sprite.body.velocity.x = 0;
         }
         if (this.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-            this.sprite.body.acceleration.x -= 30;
+            this.sprite.body.velocity.x -= 30;
             this.sprite.scale.x = 1;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT)) {
-            this.sprite.body.acceleration.x = 0;
+            this.sprite.body.velocity.x = 0;
         }
 
         if (this.keyboard.isDown(Phaser.Keyboard.UP))

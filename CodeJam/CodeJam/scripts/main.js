@@ -84,7 +84,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
         tileset.setCollisionRange(0, tileset.total - 1, true, true, true, true);
 
-        layer = game.add.tilemapLayer(0, 0, 800, 600, tileset, map, 0);
+        layer = game.add.tilemapLayer(0, 0, 800, 640, tileset, map, 0);
 
         layer.resizeWorld();
 
@@ -93,7 +93,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
         myPlayer = new localPlayer(playerSprite, game, socket, playerId);
         playerPool.addPlayer(myPlayer.id, myPlayer);
-        game.camera.follow(player.sprite);
+        game.camera.follow(myPlayer.sprite);
         socket.emit('playerjoin', {id: myPlayer.id});
 
         for (var i = 0; i < otherIds.length; i++) {
