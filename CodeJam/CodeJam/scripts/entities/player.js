@@ -1,29 +1,39 @@
 define(function() {
-    function Player(sprite, game, socket) {
+    function Player(sprite, game, socket, id) {
+        this.id = id; 
         this.socket = socket;
         this.game = game;
         this.sprite = sprite;
 
-        //this.sprite.width = 32;
-        //this.sprite.height = 32;
-
         this.sprite.body.collideWorldBounds = true;
+        this.sprite.width = 32;
+        this.sprite.height = 64;
 
         this.sprite.body.maxVelocity.x = 250;
         this.sprite.body.maxVelocity.y = 1200;
         this.sprite.body.drag.x = 900;
-        this.sprite.body.gravity.y = 9;
 
-        //this.sprite.body.bounce.setTo(0.5, 0.5);
+        this.sprite.body.gravity.y = 12;
 
-        //this.sprite.anchor.setTo(0.5, 0.5);
+        this.sprite.body.setSize(32, 64, 0, 0);
 
-        this.sprite.body.setSize(32, 32, 0, 0);
+        this.sprite.body.gravity.y = 12;
+        this.sprite.body.bounce.y = .02;
+        this.sprite.anchor.setTo(.5, null);
 
-        //this.sprite.body.drag.y = -100;
+        //network variables
+        this.state = "disconnected";
     }
 
     Player.prototype.update = function () {
+    };
+
+    Player.prototype.updateFromStatus = function (status) {
+        for (var prop in status) {
+            if (status.hasOwnProperty(prop)) {
+                this[prop] = status[prop];
+            }
+        }
     };
 
     return Player;
