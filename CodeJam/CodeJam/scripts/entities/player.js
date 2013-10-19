@@ -4,8 +4,8 @@ define(function() {
         this.game = game;
         this.sprite = sprite;
 
-        this.sprite.width = 16;
-        this.sprite.height = 16;
+        this.sprite.width = 32;
+        this.sprite.height = 32;
 
         this.sprite.body.maxVelocity.x = 250;
         this.sprite.body.maxVelocity.y = 900;
