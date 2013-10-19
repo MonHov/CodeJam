@@ -93,14 +93,14 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
         myPlayer = new localPlayer(playerSprite, game, socket, playerId);
         playerPool.addPlayer(myPlayer.id, myPlayer);
-        
+
+        game.camera.follow(myPlayer.sprite);
+
         socket.emit('playerjoin', {id: myPlayer.id});
 
         for (var i = 0; i < otherIds.length; i++) {
             createRemotePlayer(otherIds[i]);
         }
-
-        game.camera.follow(myPlayer.sprite);
     }
 
      
