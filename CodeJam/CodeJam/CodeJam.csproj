@@ -47,6 +47,7 @@
     <Content Include="scripts\entities\localPlayer.js" />
     <Content Include="scripts\entities\player.js" />
     <Content Include="scripts\entities\remotePlayer.js" />
+    <Content Include="scripts\main.js" />
     <Content Include="scripts\phaser.js" />
     <Content Include="scripts\r.js" />
     <Content Include="scripts\require.js" />
@@ -69,6 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\maps\collision.json" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
