@@ -52,9 +52,9 @@ define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Ph
     }
 
     function update() {
-        player.update();
 
         game.physics.collide(player.sprite, layer);
+        player.update();
     }
 
     function render() {
