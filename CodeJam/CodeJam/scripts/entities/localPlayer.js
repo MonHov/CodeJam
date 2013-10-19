@@ -23,8 +23,7 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         }
 
         if (this.keyboard.isDown(Phaser.Keyboard.UP)) {
-            if (this.sprite.body.touching.down)
-            this.sprite.body.velocity.y = -400;
+            this.sprite.body.velocity.y = -300;
         }
     };
 

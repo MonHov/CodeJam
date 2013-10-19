@@ -2,8 +2,8 @@
 
 define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Phaser, localPlayer, remotePlayer) {
 
-    var height = document.height;
-    var width = document.width;
+    var width = document.body.offsetWidth;
+    var height = document.body.offsetHeight;
 
     var game = new Phaser.Game(width, height, Phaser.AUTO, '', {
         preload: init,
