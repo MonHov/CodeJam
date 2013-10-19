@@ -12,10 +12,11 @@ define(function() {
         this.sprite.body.drag.x = 900;
         this.sprite.body.gravity.y = 6;
         this.sprite.body.bounce.y = .02;
-        this.sprite.body.drag.y = 400;
+        this.sprite.anchor.setTo(.5, .5);
     }
 
     Player.prototype.update = function () {
+
     };
 
     return Player;

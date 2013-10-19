@@ -1,7 +1,11 @@
 ﻿/// <reference path="~\scripts\phaser.js">
 
 define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Phaser, localPlayer, remotePlayer) {
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+
+    var height = document.height;
+    var width = document.width;
+
+    var game = new Phaser.Game(width, height, Phaser.AUTO, '', {
         preload: init,
         create: create,
         update: update,
@@ -39,9 +43,7 @@ define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Ph
 
         layer = game.add.tilemapLayer(0, 0, 800, 600, tileset, map, 0);
 
-        layer.resizeWorld();
-
-        
+        layer.resizeWorld();       
 
         var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
         player = new localPlayer(playerSprite, game, socket);
