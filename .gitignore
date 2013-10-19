@@ -151,3 +151,7 @@ $RECYCLE.BIN/
 .DS_Store
 
 phaser-dev/
+
+web.config
+web.Debug.config
+web.Release.config
