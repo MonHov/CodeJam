@@ -140,5 +140,9 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
     function render() {
         game.debug.renderSpriteCorners(myPlayer.sprite);
+
+        for (var player in otherPlayerGroup) {
+            game.debug.renderSpriteCorners(player);
+        }
     }
 });
