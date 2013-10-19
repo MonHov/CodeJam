@@ -3,9 +3,9 @@ var uuid = require('node-uuid');
 
 io.configure(function(){
 	//https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
-	io.enable('browser client minification');  // send minified client
-	io.enable('browser client etag');          // apply etag caching logic based on version number
-	io.enable('browser client gzip');          // gzip the file
+	//io.enable('browser client minification');  // send minified client
+	//io.enable('browser client etag');          // apply etag caching logic based on version number
+	//io.enable('browser client gzip');          // gzip the file
 	io.set('log level', 1);                    // reduce logging
 
 	// enable all transports (optional if you want flashsocket support, please note that some hosting
@@ -69,7 +69,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('disconnect', function (data) {
 		console.log('\t socket.io:: client disconnected ' + socket.userid );
 		io.sockets.emit("playerleave", {id:socket.userid});
-		//playerIds.splice(playerIds.indexOf(socket.userid),1);
+		playerIds.splice(playerIds.indexOf(socket.userid),1);
 		playerCount--;
     });
 	
