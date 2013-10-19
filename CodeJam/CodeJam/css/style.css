@@ -127,7 +127,7 @@ button {width: auto; overflow: visible;}
 
 /* A Linux- and Windows-friendly sans-serif font stack: http://prospects.mhurrell.co.uk/post/updating-the-helvetica-font-stack */
 body {
-	font: 13px Helmet, Freesans, sans-serif;
+	font: 62.5% Helmet, Freesans, sans-serif;
 	margin: 20px 0 0;
 	background: #ccc url(../assets/sandpaper.png);
 }
@@ -155,10 +155,36 @@ input:-moz-placeholder { color:#a9a9a9; }
 textarea:-moz-placeholder { color:#a9a9a9; }
 
 
+header {
+	width: 750px;
+	margin: 0 auto 20px;
+}
+
+	header h1,
+	header h2 {
+		text-align: center;
+		text-transform: uppercase;
+		letter-spacing: -1px;
+		text-shadow: 0 -1px 0 #000;
+	}
+
+	header h1 { font-size: 4em; }
+
+	header h2 { 
+		color: #111;
+		font-size: 3em; 
+	}
+
+#game {
+	padding: 10px 0;
+	margin: 0 0 10px;
+	height: 570px;
+}
+
 canvas {
 	display: block;
-	width: 1000px;
-	height: 700px;
+	width: 750px;
+	height: 550px;
 	margin: 0 auto;
 	-webkit-box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.95);
 	-moz-box-shadow:    0px 0px 10px rgba(50, 50, 50, 0.95);

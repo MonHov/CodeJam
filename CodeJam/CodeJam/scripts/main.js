@@ -22,7 +22,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     socket.on("gamejoin", function (data) {
         playerId = data.id;
         otherIds = data.otherIds;
-        game = new Phaser.Game(800, 640, Phaser.AUTO, '', {
+        game = new Phaser.Game(800, 640, Phaser.AUTO, 'game', {
             preload: init,
             create: create,
             update: update,
