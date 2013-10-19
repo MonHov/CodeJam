@@ -27,6 +27,13 @@ define(["entities/player", "phaser"], function (player, Phaser) {
             if (this.sprite.body.touching.down)
             this.sprite.body.velocity.y = -300;
         }
+
+        this.socket.emit("playermove", {
+            id: this.id,
+            x: this.sprite.body.x,
+            y: this.sprite.body.y
+        });
+
     };
 
     return LocalPlayer;
