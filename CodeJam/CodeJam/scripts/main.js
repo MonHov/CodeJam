@@ -52,6 +52,8 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
         var leftPlayer = playerPool.removePlayer(leftId);
         if (leftPlayer) {
             leftPlayer.sprite.destroy();
+
+            otherPlayerGroup.remove(leftPlayer.sprite);
         }
     });
 
@@ -60,15 +62,21 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     var layer;
     var bg;
 
+    var otherPlayerGroup;
+
     function createRemotePlayer (newPlayerId) {
         if (!playerPool.getPlayer(newPlayerId)) {
             var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'otis-small');
             var newPlayer = new remotePlayer(playerSprite, game, socket, newPlayerId);
             playerPool.addPlayer(newPlayerId, newPlayer);
+
+            otherPlayerGroup.add(playerSprite);
         }
     }
 
     function init() {
+
+        otherPlayerGroup = game.add.group();
 
         game.load.tilemap('desert', 'assets/maps/collision.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tileset('tiles', 'assets/tiles/smb_tiles.png', 16, 16);
@@ -109,6 +117,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     var b;
     function update() {
 
+        game.physics.collide(myPlayer.sprite, otherPlayerGroup);
         game.physics.collide(myPlayer.sprite, layer);
         myPlayer.update();
     }
