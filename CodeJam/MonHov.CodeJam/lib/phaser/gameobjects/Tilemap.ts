@@ -1,0 +1,298 @@
+/// <reference path="../Game.ts" />
+/// <reference path="GameObject.ts" />
+/// <reference path="../system/TilemapLayer.ts" />
+/// <reference path="../system/Tile.ts" />
+
+/**
+* Phaser - Tilemap
+*
+* This GameObject allows for the display of a tilemap within the game world. Tile maps consist of an image, tile data and a size.
+* Internally it creates a TilemapLayer for each layer in the tilemap.
+*/
+
+module Phaser {
+
+    export class Tilemap extends GameObject {
+
+        constructor(game: Game, key: string, mapData: string, format: number, resizeWorld: bool = true, tileWidth?: number = 0, tileHeight?: number = 0) {
+
+            super(game);
+
+            this.isGroup = false;
+
+            this.tiles = [];
+            this.layers = [];
+
+            this.mapFormat = format;
+
+            switch (format)
+            {
+                case Tilemap.FORMAT_CSV:
+                    this.parseCSV(game.cache.getText(mapData), key, tileWidth, tileHeight);
+                    break;
+
+                case Tilemap.FORMAT_TILED_JSON:
+                    this.parseTiledJSON(game.cache.getText(mapData), key);
+                    break;
+            }
+
+            if (this.currentLayer && resizeWorld)
+            {
+                this._game.world.setSize(this.currentLayer.widthInPixels, this.currentLayer.heightInPixels, true);
+            }
+
+        }
+
+        private _tempCollisionData;
+
+        public static FORMAT_CSV: number = 0;
+        public static FORMAT_TILED_JSON: number = 1;
+
+        public tiles : Tile[];
+        public layers : TilemapLayer[];
+        public currentLayer: TilemapLayer;
+        public collisionLayer: TilemapLayer;
+        public collisionCallback = null;
+        public collisionCallbackContext;
+        public mapFormat: number;
+
+        public update() {
+        }
+
+        public render(camera: Camera, cameraOffsetX: number, cameraOffsetY: number) {
+
+            if (this.cameraBlacklist.indexOf(camera.ID) == -1)
+            {
+                //  Loop through the layers
+                for (var i = 0; i < this.layers.length; i++)
+                {
+                    this.layers[i].render(camera, cameraOffsetX, cameraOffsetY);
+                }
+            }
+
+        }
+
+        private parseCSV(data: string, key: string, tileWidth: number, tileHeight: number) {
+
+            var layer: TilemapLayer = new TilemapLayer(this._game, this, key, Tilemap.FORMAT_CSV, 'TileLayerCSV' + this.layers.length.toString(), tileWidth, tileHeight);
+
+            //  Trim any rogue whitespace from the data
+            data = data.trim();
+
+            var rows = data.split("\n");
+
+            for (var i = 0; i < rows.length; i++)
+            {
+                var column = rows[i].split(",");
+
+                if (column.length > 0)
+                {
+                    layer.addColumn(column);
+                }
+            }
+
+            layer.updateBounds();
+            var tileQuantity = layer.parseTileOffsets();
+
+            this.currentLayer = layer;
+            this.collisionLayer = layer;
+
+            this.layers.push(layer);
+
+            this.generateTiles(tileQuantity);
+
+        }
+
+        private parseTiledJSON(data: string, key: string) {
+
+            //  Trim any rogue whitespace from the data
+            data = data.trim();
+
+            var json = JSON.parse(data);
+
+            for (var i = 0; i < json.layers.length; i++)
+            {
+                var layer: TilemapLayer = new TilemapLayer(this._game, this, key, Tilemap.FORMAT_TILED_JSON, json.layers[i].name, json.tilewidth, json.tileheight);
+                
+                layer.alpha = json.layers[i].opacity;
+                layer.visible = json.layers[i].visible;
+                layer.tileMargin = json.tilesets[0].margin;
+                layer.tileSpacing = json.tilesets[0].spacing;
+
+                var c = 0;
+                var row;
+
+                for (var t = 0; t < json.layers[i].data.length; t++)
+                {
+                    if (c == 0)
+                    {
+                        row = [];
+                    }
+
+                    row.push(json.layers[i].data[t]);
+
+                    c++;
+
+                    if (c == json.layers[i].width)
+                    {
+                        layer.addColumn(row);
+                        c = 0;
+                    }
+                }
+
+                layer.updateBounds();
+
+                var tileQuantity = layer.parseTileOffsets();
+
+                this.currentLayer = layer;
+                this.collisionLayer = layer;
+
+                this.layers.push(layer);
+
+            }
+
+            this.generateTiles(tileQuantity);
+
+        }
+
+        private generateTiles(qty:number) {
+
+            for (var i = 0; i < qty; i++)
+            {
+                this.tiles.push(new Tile(this._game, this, i, this.currentLayer.tileWidth, this.currentLayer.tileHeight));
+            }
+
+        }
+
+        public get widthInPixels(): number {
+            return this.currentLayer.widthInPixels;
+        }
+
+        public get heightInPixels(): number {
+            return this.currentLayer.heightInPixels;
+        }
+
+        //  Tile Collision
+
+        public setCollisionCallback(context, callback) {
+
+            this.collisionCallbackContext = context;
+            this.collisionCallback = callback;
+
+        }
+
+        public setCollisionRange(start: number, end: number, collision?:number = Collision.ANY, resetCollisions?: bool = false, separateX?: bool = true, separateY?: bool = true) {
+
+            for (var i = start; i < end; i++)
+            {
+                this.tiles[i].setCollision(collision, resetCollisions, separateX, separateY);
+            }
+
+        }
+
+        public setCollisionByIndex(values:number[], collision?:number = Collision.ANY, resetCollisions?: bool = false, separateX?: bool = true, separateY?: bool = true) {
+
+            for (var i = 0; i < values.length; i++)
+            {
+                this.tiles[values[i]].setCollision(collision, resetCollisions, separateX, separateY);
+            }
+
+        }
+
+        //  Tile Management
+
+        public getTileByIndex(value: number):Tile {
+
+            if (this.tiles[value])
+            {
+                return this.tiles[value];
+            }
+
+            return null;
+
+        }
+
+        public getTile(x: number, y: number, layer?: number = 0):Tile {
+
+            return this.tiles[this.layers[layer].getTileIndex(x, y)];
+
+        }
+
+        public getTileFromWorldXY(x: number, y: number, layer?: number = 0):Tile {
+
+            return this.tiles[this.layers[layer].getTileFromWorldXY(x, y)];
+
+        }
+
+        public getTileFromInputXY(layer?: number = 0):Tile {
+
+            return this.tiles[this.layers[layer].getTileFromWorldXY(this._game.input.worldX, this._game.input.worldY)];
+
+        }
+
+        public getTileOverlaps(object: GameObject) {
+
+            return this.currentLayer.getTileOverlaps(object);
+
+        }
+
+        //  COLLIDE
+        public collide(objectOrGroup = null, callback = null, context = null) {
+
+            if (callback !== null && context !== null)
+            {
+                this.collisionCallback = callback;
+                this.collisionCallbackContext = context;
+            }
+
+            if (objectOrGroup == null)
+            {
+                objectOrGroup = this._game.world.group;
+            }
+
+            //  Group?
+            if (objectOrGroup.isGroup == false)
+            {
+                this.collideGameObject(objectOrGroup);
+            }
+            else
+            {
+                objectOrGroup.forEachAlive(this, this.collideGameObject, true);
+            }
+
+        }
+
+        public collideGameObject(object: GameObject): bool {
+
+            if (object !== this && object.immovable == false && object.exists == true && object.allowCollisions != Collision.NONE)
+            {
+                this._tempCollisionData = this.collisionLayer.getTileOverlaps(object);
+
+                if (this.collisionCallback !== null && this._tempCollisionData.length > 0)
+                {
+                    this.collisionCallback.call(this.collisionCallbackContext, object, this._tempCollisionData);
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public putTile(x: number, y: number, index: number, layer?: number = 0) {
+
+            this.layers[layer].putTile(x, y, index);
+
+        }
+
+        //  Set current layer
+        //  Set layer order?
+        //  Delete tiles of certain type
+        //  Erase tiles
+
+    }
+
+}
