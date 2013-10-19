@@ -4,6 +4,7 @@ define(function() {
         this.socket = socket;
         this.game = game;
         this.sprite = sprite;
+        this.sprite.player = this;
 
         this.sprite.body.collideWorldBounds = true;
         this.sprite.width = 32;

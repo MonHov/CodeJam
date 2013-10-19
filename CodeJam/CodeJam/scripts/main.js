@@ -117,11 +117,23 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     var b;
     function update() {
 
-        game.physics.collide(myPlayer.sprite, otherPlayerGroup);
+        game.physics.collide(myPlayer.sprite, otherPlayerGroup, collisionHandler, null, this);
         game.physics.collide(myPlayer.sprite, layer);
         myPlayer.update();
     }
 
+    function collisionHandler(obj1, obj2) {
+        //console.log(obj2);
+
+        player = obj2.player;
+
+        //player.socket.emit("playermove", {
+        //    id: player.id,
+        //    x: player.sprite.body.x + 200,
+        //    y: player.sprite.body.y,
+        //    scale: player.sprite.scale.x
+        //});
+    }
 
     function render() {
         game.debug.renderSpriteCorners(myPlayer.sprite);
