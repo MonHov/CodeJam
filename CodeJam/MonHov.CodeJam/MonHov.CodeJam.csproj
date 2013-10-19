@@ -164,6 +164,7 @@
     <Content Include="lib\phaser\TweenManager.ts" />
     <Content Include="lib\phaser\World.d.ts" />
     <Content Include="lib\phaser\World.ts" />
+    <Content Include="Whatever.js" />
     <Content Include="Whatever.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +181,7 @@
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
+    <Content Include="Whatever.js.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
