@@ -9,7 +9,7 @@ define(function() {
         this.sprite.body.collideWorldBounds = true;
         this.sprite.width = 32;
         this.sprite.height = 64;
-        this.sprite.anchor.setTo(.5, 0);
+        this.sprite.anchor.x = 0.5;
 
         //network variables
         this.state = "disconnected";
