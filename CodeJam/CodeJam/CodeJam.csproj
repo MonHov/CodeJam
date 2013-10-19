@@ -38,17 +38,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\player.mario.png" />
+    <Content Include="assets\tiles\platformer_tiles.png" />
+    <Content Include="assets\tiles\smb_tiles.png" />
+    <Content Include="assets\tiles\tmw_desert_spacing.png" />
     <Content Include="index.html" />
     <Content Include="scripts\app.js" />
+    <Content Include="scripts\entities\localPlayer.js" />
+    <Content Include="scripts\entities\player.js" />
+    <Content Include="scripts\entities\remotePlayer.js" />
+    <Content Include="scripts\phaser.js" />
     <Content Include="scripts\r.js" />
     <Content Include="scripts\require.js" />
-    <Content Include="scripts\test.js" />
+    <Content Include="scripts\main.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\maps\platform-test-1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\maps\smb_level1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\maps\desert.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\maps\collision.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -63,7 +83,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>13410</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:10869/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
