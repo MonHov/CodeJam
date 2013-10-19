@@ -1,3 +1,7 @@
+var Whatever = (function () {
+    function Whatever() { }
+    return Whatever;
+})();
 ///<reference path="lib/phaser.d.ts"/>
 ///<reference path="Whatever.ts"/>
 var game = new Phaser.Game(this, 'content', 800, 600, init, create, update);
@@ -10,4 +14,4 @@ function create() {
 function update() {
 }
 ;
-//@ sourceMappingURL=app.js.map
+//@ sourceMappingURL=application.js.map
