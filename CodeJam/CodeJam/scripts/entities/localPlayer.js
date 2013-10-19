@@ -19,15 +19,16 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         player.prototype.update.apply(this, position);
 
         this.sprite.body.velocity.x = 0;
-        //this.sprite.body.velocity.y = 0;
 
         if (this.keyboard.isDown(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
             this.sprite.body.velocity.x = 225;
+            this.sprite.scale.x = -1;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
             this.sprite.body.acceleration.x = 0;
         }
         if (this.keyboard.isDown(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.velocity.x = -225;
+            this.sprite.scale.x = 1;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.acceleration.x = 0;
         }
@@ -35,16 +36,15 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         if (this.keyboard.isDown(Phaser.Keyboard.UP) || this.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
             //if (this.sprite.body.touching.down) {
             if (this.game.time.now > this.jumpTimer && this.sprite.body.touching.down) {
-                this.sprite.body.velocity.y = -600;
-                this.jumpTimer = this.game.time.now + 900;
+                //this.sprite.body.velocity.y = -600;
+                this.jumpTimer = this.game.time.now + 900;                
                 
-                
-                    //if (Math.abs(this.sprite.body.velocity.x) >= this.sprite.body.maxVelocity.x - 15) {
-                    //    console.log("turbo jump");
-                    //    this.sprite.body.velocity.y = -500;
-                    //} else {
-                    //    this.sprite.body.velocity.y = -450;
-                    //}
+                if (Math.abs(this.sprite.body.velocity.x) >= this.sprite.body.maxVelocity.x - 15) {
+                    console.log("turbo jump");
+                    this.sprite.body.velocity.y = -550;
+                } else {
+                    this.sprite.body.velocity.y = -500;
+                }
             }
         }
 
