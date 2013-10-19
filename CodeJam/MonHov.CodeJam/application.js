@@ -66,7 +66,7 @@ var RemotePlayer = (function (_super) {
     return RemotePlayer;
 })(Player);
 var firstPlayer = false;
-var socket = io.connect("http://localhost:80");
+var socket = io.connect("http://10.7.1.171:80");
 var player;
 var playerConstructor;
 var remotePosition;
@@ -85,6 +85,7 @@ socket.on('status', function (status) {
 socket.emit('playerjoin');
 function init() {
     //game.loader.addTextureAtlas('entities', 'assets/textures/entities.png', 'assets/textures/entities.txt');
+    game.stage.disablePauseScreen = true;
     game.loader.addImageFile('mario', 'assets/player.mario.png');
     game.loader.load();
 }

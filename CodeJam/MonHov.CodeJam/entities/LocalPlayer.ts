@@ -26,6 +26,7 @@ class LocalPlayer extends Player {
             this.sprite.flipped = false;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT)) {
             this.sprite.acceleration.x = 0;
+            
         }
 
         socket.emit('playermove', { x: this.sprite.x, y: this.sprite.y });

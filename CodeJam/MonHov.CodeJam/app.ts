@@ -31,6 +31,8 @@ socket.emit('playerjoin');
 
 function init() { 
     //game.loader.addTextureAtlas('entities', 'assets/textures/entities.png', 'assets/textures/entities.txt');
+    game.stage.disablePauseScreen = true;
+
     game.loader.addImageFile('mario', 'assets/player.mario.png');
     game.loader.load();
 };
