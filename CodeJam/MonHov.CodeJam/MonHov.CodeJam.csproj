@@ -26,7 +26,18 @@
     <Content Include="app.js">
       <DependentUpon>app.ts</DependentUpon>
     </Content>
-    <Content Include="entities\Player.ts" />
+    <TypeScriptCompile Include="entities\LocalPlayer.ts" />
+    <Content Include="entities\LocalPlayer.js">
+      <DependentUpon>LocalPlayer.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="entities\Player.ts" />
+    <Content Include="entities\Player.js">
+      <DependentUpon>Player.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="entities\RemotePlayer.ts" />
+    <Content Include="entities\RemotePlayer.js">
+      <DependentUpon>RemotePlayer.ts</DependentUpon>
+    </Content>
     <Content Include="lib\phaser-fx.d.ts" />
     <Content Include="lib\phaser-fx.js" />
     <Content Include="lib\phaser.d.ts" />
@@ -170,8 +181,6 @@
     <Content Include="lib\phaser\TweenManager.ts" />
     <Content Include="lib\phaser\World.d.ts" />
     <Content Include="lib\phaser\World.ts" />
-    <Content Include="Whatever.js" />
-    <Content Include="Whatever.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
@@ -180,6 +189,10 @@
     <Content Include="lib\phaser\.gitignore" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\socket.io\socket.io.js" />
+    <Content Include="lib\socket.io\socket.io.min.js" />
+    <Content Include="lib\socket.io\WebSocketMain.swf" />
+    <Content Include="lib\socket.io\WebSocketMainInsecure.swf" />
     <Content Include="web.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

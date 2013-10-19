@@ -1,16 +1,34 @@
 ///<reference path="../lib/phaser.d.ts"/>
 var Player = (function () {
     // array of status effects
-    function Player(sprite, game) {
+    function Player(sprite, game, socket) {
+        this.socket = socket;
         this.game = game;
         this.sprite = sprite;
         //this.sprite.height = 32;
         //this.sprite.width = 32;
         this.sprite.maxVelocity.x = 250;
         this.sprite.drag.x = 900;
+    }
+    Player.prototype.update = function (position) {
+    };
+    return Player;
+})();
+var __extends = this.__extends || function (d, b) {
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+///<reference path="../lib/phaser.d.ts"/>
+///<reference path="Player.ts"/>
+var LocalPlayer = (function (_super) {
+    __extends(LocalPlayer, _super);
+    function LocalPlayer(sprite, game, socket) {
+        _super.call(this, sprite, game, socket);
         this.keyboard = game.input.keyboard;
     }
-    Player.prototype.update = function () {
+    LocalPlayer.prototype.update = function (position) {
+        _super.prototype.update.call(this);
         // Player controls
         if(this.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             this.sprite.acceleration.x += 100;
@@ -24,13 +42,47 @@ var Player = (function () {
         } else if(this.keyboard.justReleased(Phaser.Keyboard.LEFT)) {
             this.sprite.acceleration.x = 0;
         }
+        socket.emit('playermove', {
+            x: this.sprite.x,
+            y: this.sprite.y
+        });
     };
-    return Player;
-})();
-///<reference path="lib/phaser.d.ts"/>
-///<reference path="entities/Player.ts"/>
-var game = new Phaser.Game(this, 'content', 800, 600, init, create, update);
+    return LocalPlayer;
+})(Player);
+///<reference path="../lib/phaser.d.ts"/>
+///<reference path="Player.ts"/>
+var RemotePlayer = (function (_super) {
+    __extends(RemotePlayer, _super);
+    function RemotePlayer(sprite, game, socket) {
+        _super.call(this, sprite, game, socket);
+    }
+    RemotePlayer.prototype.update = function (position) {
+        _super.prototype.update.call(this);
+        if(position) {
+            this.sprite.x = position.x;
+            this.sprite.y = position.y;
+        }
+    };
+    return RemotePlayer;
+})(Player);
+var firstPlayer = false;
+var socket = io.connect("http://localhost:80");
 var player;
+var playerConstructor;
+var remotePosition;
+var game;
+socket.on('status', function (status) {
+    if(status === 'player') {
+        playerConstructor = LocalPlayer;
+    } else {
+        playerConstructor = RemotePlayer;
+        socket.on('playermove', function (position) {
+            remotePosition = position;
+        });
+    }
+    game = new Phaser.Game(this, 'content', 800, 600, init, create, update);
+});
+socket.emit('playerjoin');
 function init() {
     //game.loader.addTextureAtlas('entities', 'assets/textures/entities.png', 'assets/textures/entities.txt');
     game.loader.addImageFile('mario', 'assets/player.mario.png');
@@ -39,7 +91,7 @@ function init() {
 ;
 function create() {
     var playerSprite = game.createSprite(game.stage.width * .5 - 50, 200, 'mario');
-    player = new Player(playerSprite, game);
+    player = new playerConstructor(playerSprite, game, socket);
     //player.drag.x = 900;
     //player.maxVelocity.x = 250;
     //player.animations.add('idle', ['assets/player.mario.png'], 10, false, false);
@@ -47,7 +99,7 @@ function create() {
     }
 ;
 function update() {
-    player.update();
+    player.update(remotePosition);
 }
 ;
 //@ sourceMappingURL=application.js.map
