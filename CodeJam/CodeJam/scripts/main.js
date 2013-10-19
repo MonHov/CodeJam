@@ -9,8 +9,8 @@ define([
 ],
 function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
-    var width = document.body.offsetWidth;
-    var height = document.body.offsetHeight;
+    var width = 800;
+    var height = 640;
 
     var game;
 
@@ -22,7 +22,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     socket.on("gamejoin", function (data) {
         playerId = data.id;
         otherIds = data.otherIds;
-        game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+        game = new Phaser.Game(800, 640, Phaser.AUTO, '', {
             preload: init,
             create: create,
             update: update,
@@ -59,7 +59,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
     function createRemotePlayer (newPlayerId) {
         if (!playerPool.getPlayer(newPlayerId)) {
-            var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
+            var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'otis-small');
             var newPlayer = new remotePlayer(playerSprite, game, socket, newPlayerId);
             playerPool.addPlayer(newPlayerId, newPlayer);
         }
@@ -100,7 +100,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     }
 
     function update() {
-        game.physics.collide(player.sprite, layer);
+        game.physics.collide(myPlayer.sprite, layer);
         myPlayer.update();
     }
 

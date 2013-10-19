@@ -15,22 +15,11 @@ define(function() {
         this.sprite.body.bounce.y = .02;
         this.sprite.anchor.setTo(.5, null);
 
-        this.sprite.body.drag.y = 400;
-
         //network variables
         this.state = "disconnected";
     }
 
     Player.prototype.update = function () {
-
-        //console.log(this.sprite.body.y);
-        if (this.sprite.body.y > 200) {
-            this.sprite.body.acceleration.y = 0;
-            this.sprite.body.y = 200;
-        }
-        if (this.sprite.body.y < 200) {
-            this.sprite.body.acceleration.y += 30;
-        }
     };
 
     Player.prototype.updateFromStatus = function (status) {
