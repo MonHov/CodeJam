@@ -17,6 +17,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="assets\player.mario.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\textures\entities.png" />
+    <Content Include="assets\textures\entities.txt" />
     <Content Include="default.htm" />
     <Content Include="app.js">
       <DependentUpon>app.ts</DependentUpon>
@@ -182,6 +187,9 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
     <Content Include="Whatever.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\textures\entities\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
