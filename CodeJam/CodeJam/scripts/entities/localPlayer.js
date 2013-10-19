@@ -22,12 +22,12 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         //this.sprite.body.velocity.y = 0;
 
         if (this.keyboard.isDown(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
-            this.sprite.body.velocity.x = 150;
+            this.sprite.body.velocity.x = 225;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
             this.sprite.body.acceleration.x = 0;
         }
         if (this.keyboard.isDown(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
-            this.sprite.body.velocity.x = -150;
+            this.sprite.body.velocity.x = -225;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.acceleration.x = 0;
         }
