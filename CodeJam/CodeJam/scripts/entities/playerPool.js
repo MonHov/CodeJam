@@ -20,9 +20,21 @@ define(function() {
         }
     }
 
+    function getAllPlayers() {
+        var players = [];
+        for (var id in pool) {
+            if (pool.hasOwnProperty(id)) {
+                players.push(pool[id]);
+            }
+        }
+
+        return players;
+    }
+
 	return {
         addPlayer: addPlayer,
         getPlayer: getPlayer,
-        removePlayer: removePlayer
+        removePlayer: removePlayer,
+        getAllPlayers: getAllPlayers
     };
 });

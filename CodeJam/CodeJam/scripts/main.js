@@ -33,7 +33,10 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
     socket.on("playerjoin", function(data) {
         console.log('someone joined', data);
-        createRemotePlayer(data.id);
+        var player = playerPool.getPlayer(data.id);
+        if (!player && player !== myPlayer) {
+            createRemotePlayer(data.id);
+        }
     });
 
     socket.on("playermove", function(data) {
@@ -90,7 +93,6 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
         //var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
         var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'otis-small');
-
         myPlayer = new localPlayer(playerSprite, game, socket, playerId);
         playerPool.addPlayer(myPlayer.id, myPlayer);
 
