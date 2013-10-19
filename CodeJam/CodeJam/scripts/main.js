@@ -22,7 +22,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     socket.on("gamejoin", function (data) {
         playerId = data.id;
         otherIds = data.otherIds;
-        game = new Phaser.Game(800, 640, Phaser.AUTO, 'game', {
+        game = new Phaser.Game(800, 640, Phaser.CANVAS, 'game', {
             preload: init,
             create: create,
             update: update,
@@ -57,6 +57,21 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
             leftPlayer.sprite.destroy();
 
             otherPlayerGroup.remove(leftPlayer.sprite);
+        }
+    });
+
+    socket.on("playerdied", function (data) {
+
+        var leftId = data.id;
+        var leftPlayer = playerPool.removePlayer(leftId);
+        if (leftPlayer) {
+            leftPlayer.sprite.destroy();
+
+            if (myPlayer.id == leftId) {
+                myPlayer.isDead = true;
+            }
+
+            otherPlayerGroup.remove(myPlayer.sprite);
         }
     });
 
@@ -130,15 +145,20 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
         player = obj2.player;
 
-        //player.socket.emit("playermove", {
-        //    id: player.id,
-        //    x: player.sprite.body.x + 200,
-        //    y: player.sprite.body.y,
-        //    scale: player.sprite.scale.x
-        //});
+        if (myPlayer.sprite.body.y > player.sprite.body.y + 60) {
+
+            player.socket.emit("playermove", {
+                jumpedonid: player.id
+            });
+        }
     }
 
     function render() {
+
+        if (myPlayer.isDead) {
+            game.debug.renderText('you died', 20, 24);
+        }
+
         game.debug.renderSpriteCorners(myPlayer.sprite);
 
         for (var player in otherPlayerGroup) {

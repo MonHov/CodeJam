@@ -71,6 +71,10 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.emit("playerleave", {id:socket.userid});
 		//playerIds.splice(playerIds.indexOf(socket.userid),1);
 		playerCount--;
-    });
+	});
+
+	socket.on('playerjumpedon', function (data) {
+	    io.sockets.emit("playerdied", { id: data.jumpedonid });
+	});
 	
 });
