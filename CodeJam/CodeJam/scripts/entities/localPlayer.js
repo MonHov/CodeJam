@@ -21,6 +21,12 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT)) {
             this.sprite.body.acceleration.x = 0;
         }
+
+        if (this.keyboard.isDown(Phaser.Keyboard.UP)) {
+            if (this.sprite.body.y > 199 && this.sprite.body.y < 201) {
+                this.sprite.body.acceleration.y = -500;
+            }
+        }
     };
 
     return LocalPlayer;
