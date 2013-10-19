@@ -42,8 +42,11 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     socket.on("playermove", function(data) {
         var otherPlayer = playerPool.getPlayer(data.id);
         if (otherPlayer && otherPlayer != myPlayer) {
+            //var t = game.add.tween(otherPlayer.sprite).to({ x: data.x, y: data.y }, 25, Phaser.Easing.Quartic.InOut);
+            //t.start();
             otherPlayer.sprite.x = data.x;
             otherPlayer.sprite.y = data.y;
+            otherPlayer.sprite.scale.x = data.scale;
         }
     });
 
