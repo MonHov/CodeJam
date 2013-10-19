@@ -1,7 +1,7 @@
 ﻿/// <reference path="~\scripts\phaser.js">
 
 define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Phaser, localPlayer, remotePlayer) {
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+    var game = new Phaser.Game(800, 640, Phaser.CANVAS, '', {
         preload: init,
         create: create,
         update: update,
@@ -37,7 +37,7 @@ define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Ph
 
         tileset.setCollisionRange(0, tileset.total - 1, true, true, true, true);
 
-        layer = game.add.tilemapLayer(0, 0, 800, 600, tileset, map, 0);
+        layer = game.add.tilemapLayer(0, 0, 800, 640, tileset, map, 0);
 
         layer.resizeWorld();
 
@@ -45,14 +45,34 @@ define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Ph
 
         var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
         player = new localPlayer(playerSprite, game, socket);
-    }
 
+        game.camera.follow(player.sprite);
+    }
+    var b;
     function update() {
-        player.update();
+
+        //overlap = layer.getTiles(player.sprite.body.x, player.sprite.body.y, player.sprite.body.width, player.sprite.body.height, true);
+
+        //if (overlap.length > 1) {
+        //    for (var i = 1; i < overlap.length; ++i) {
+        //        game.physics.separateTile(player.sprite.body, overlap[i]);
+        //    }
+        //}
 
         game.physics.collide(player.sprite, layer);
+        player.update();
+
+        b = new Phaser.Rectangle(player.sprite.body.x, player.sprite.body.y, player.sprite.body.width, player.sprite.body.height);
+
+        
+
+        
     }
 
     function render() {
+        game.debug.renderSpriteCorners(player.sprite);
+        //game.debug.renderSpriteCorners(layer);
+        
+        //game.debug.renderRectangle(b, 'rgba(0,20,91,1)');
     }
 });
