@@ -1,4 +1,6 @@
-﻿define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Phaser, localPlayer, remotePlayer) {
+﻿/// <reference path="~\scripts\phaser.js">
+
+define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Phaser, localPlayer, remotePlayer) {
     var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
         preload: init,
         create: create,
@@ -8,7 +10,7 @@
 
     var player;
     var socket;
-
+    
     function init() {
         game.stage.disablePauseScreen = true;
         game.load.image('mario', 'assets/player.mario.png');
