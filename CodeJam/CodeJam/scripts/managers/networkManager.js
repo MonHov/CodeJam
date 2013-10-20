@@ -37,6 +37,10 @@ define(["socketio"], function (io) {
         socket.on("newProjectile", onSuccess);
     };
 
+    NetworkManager.removeProjectile = function (onSuccess) {
+        socket.on("removeProjectile", onSuccess);
+    };
+
     NetworkManager.playerDied = function (onSuccess) {
         socket.on("playerdied", onSuccess);
     };

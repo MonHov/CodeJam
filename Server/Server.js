@@ -59,6 +59,10 @@ io.sockets.on('connection', function (socket) {
     socket.on('playermove', function (data) {
         io.sockets.emit('playermove', data);
     });
+	
+	socket.on('newprojectile', function (data) {
+        io.sockets.emit('newprojectile', data);
+    });
 
     socket.on('playerjoin', function (data) {
 		console.log('\t socket.io:: client connected ' + socket.userid );

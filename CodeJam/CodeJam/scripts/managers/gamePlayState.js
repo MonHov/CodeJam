@@ -21,6 +21,8 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
 
         NetworkManager.newProjectile(this.newProjectile.bind(this));
 
+        NetworkManager.removeProjectile(this.removeProjectile.bind(this));
+
         NetworkManager.playerDied(this.playerDied.bind(this));
         
         NetworkManager.join(function (data) {
@@ -230,11 +232,26 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         createBullet(startX, startY, rotation, this);
     };
 
+    GamePlayState.prototype.removeProjectile = function (projectileInfo) {
+        var projectile = ProjectilePool.getgetProjectile(projectileInfo.id);
+        projectile.kill();
+        ProjectilePool.removeProjectile(projectile);
+    }
+
     function createBullet(x, y, rot, gamePlayState) {
         var bullet = gamePlayState.projectileGroup.getFirstDead();
         bullet.reset(x, y);
         bullet.rotation = rot;
         bullet.body.velocity.x = 600;
+        createBullet(startX, startY, rotation, this);
+        
+        NetworkManager.broadcastProjectile({
+            shooter: gamePlayState.LocalPlayer.id,
+            startX: x,
+            startY: y,
+            rotation: bullet.rotation
+        });
+
         ProjectilePool.addProjectile(bullet);
     }
 
