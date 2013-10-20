@@ -167,8 +167,7 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         var playerX = player.sprite.body.x;
         var width = player.sprite.body.width;
         var above = (myPlayerX - playerX) < width * 0.3;
-
-
+        
         if (myPlayerY < otherPlayerHeadY && myPlayerFalling && above) {
             myPlayer.sprite.body.velocity.y = -250;
             NetworkManager.broadcastPlayerJumpedOn(player.id);
@@ -250,7 +249,9 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
     }
 
     function respawnPlayer(gamePlayState) {
-        while (gamePlayState.game.physics.collide(this.sprite, gamePlayState.game.layer)) {
+        console.log("Respawning");
+        while (gamePlayState.game.physics.collide(gamePlayState.localPlayer.sprite, gamePlayState.layer)) {
+            console.log("trying to find a spawn point");
             this.localPlayer.sprite.body.x = gamePlayState.game.World.randomX;
             this.localPlayer.sprite.body.y = gamePlayState.game.World.randomY;
         }
