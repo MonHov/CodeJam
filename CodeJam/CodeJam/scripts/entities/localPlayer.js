@@ -8,8 +8,6 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         this.sprite.body.drag.x = 900;
         this.sprite.body.gravity.y = 12;
         this.sprite.body.bounce.y = .02;
-        this.sprite.anchor.setTo(.5, null);
-
         this.keyboard = game.input.keyboard;
 
         this.jumpTimer = 0;
