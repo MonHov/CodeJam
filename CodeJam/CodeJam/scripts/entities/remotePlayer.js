@@ -1,6 +1,6 @@
 define(["entities/player"], function (player) {
 
-    function RemotePlayer(sprite, game, socket) {
+    function RemotePlayer(sprite, game) {
         player.apply(this, arguments);
 
         this.keyboard = game.input.keyboard;

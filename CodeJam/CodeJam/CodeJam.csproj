@@ -51,6 +51,10 @@
     <Content Include="scripts\entities\remotePlayer.js" />
     <Content Include="scripts\lib\socket.io.min.js" />
     <Content Include="scripts\main.js" />
+    <Content Include="scripts\managers\gameManager.js" />
+    <Content Include="scripts\managers\gamePlayState.js" />
+    <Content Include="scripts\managers\gameStateManager.js" />
+    <Content Include="scripts\managers\networkManager.js" />
     <Content Include="scripts\phaser.js" />
     <Content Include="scripts\r.js" />
     <Content Include="scripts\require.js" />

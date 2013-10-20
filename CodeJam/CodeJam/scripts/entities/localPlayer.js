@@ -1,6 +1,6 @@
 define(["entities/player", "phaser"], function (player, Phaser) {
 
-    function LocalPlayer(sprite, game, socket) {
+    function LocalPlayer(sprite, game) {
         player.apply(this, arguments);
 
         this.sprite.body.maxVelocity.x = 250;
@@ -9,6 +9,8 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         this.sprite.body.gravity.y = 12;
         this.sprite.body.bounce.y = .02;
 
+        this.fireRate = 200;
+        this.nextFire = 0;
 
         this.keyboard = game.input.keyboard;
 
@@ -55,13 +57,12 @@ define(["entities/player", "phaser"], function (player, Phaser) {
             }
         }
 
-        this.socket.emit("playermove", {
+        return {
             id: this.id,
             x: this.sprite.body.x,
             y: this.sprite.body.y,
             scale: this.sprite.scale.x
-        });
-
+        };
     };
 
     return LocalPlayer;

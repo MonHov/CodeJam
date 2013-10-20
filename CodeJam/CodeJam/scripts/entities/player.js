@@ -1,7 +1,6 @@
 define(function() {
-    function Player(sprite, game, socket, id) {
+    function Player(sprite, game, id) {
         this.id = id; 
-        this.socket = socket;
         this.game = game;
         this.sprite = sprite;
         this.sprite.player = this;
@@ -20,14 +19,6 @@ define(function() {
 
     Player.prototype.update = function () {
     };
-
-    Player.prototype.updateFromStatus = function (status) {
-        for (var prop in status) {
-            if (status.hasOwnProperty(prop)) {
-                this[prop] = status[prop];
-            }
-        }
-    };
-
+    
     return Player;
 });
