@@ -22,21 +22,6 @@ io.configure(function(){
 	io.set('log level', 0);
 });
 
-var gameServer = {};
-gameServer.fake_latency = 0;
-gameServer.local_time = 0;
-gameServer._dt = new Date().getTime();
-gameServer._dte = new Date().getTime();
-    //a local queue of messages we delay if faking latency
-gameServer.messages = [];
-
-setInterval(function(){
-    gameServer._dt = new Date().getTime() - gameServer._dte;
-    gameServer._dte = new Date().getTime();
-    gameServer.local_time += gameServer._dt/1000.0;
-}, 4);
-
-
 var playerCount = 0;
 var playerIds = [];
 
@@ -62,6 +47,7 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('newprojectile', function (data) {
         io.sockets.emit('newprojectile', data);
+		console.log('\t socket.io:: client connected ' + socket.userid );
     });
 
     socket.on('playerjoin', function (data) {
