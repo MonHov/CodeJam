@@ -154,7 +154,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
             mouseX = game.input.x;
             mouseY = game.input.y;
 
-            var offSetX = -30 * gamePlayState.localPlayer.sprite.scale.x;
+            var offSetX = 30 * gamePlayState.localPlayer.sprite.scale.x;
             var offSetY = 10 - (gamePlayState.localPlayer.sprite.body.height / 2);
 
             if (mouseY > gamePlayState.localPlayer.sprite.y)
