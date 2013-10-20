@@ -46,6 +46,8 @@
     <Content Include="scripts\app.js" />
     <Content Include="scripts\entities\localPlayer.js" />
     <Content Include="scripts\entities\player.js" />
+    <Content Include="scripts\entities\playerPool.js" />
+    <Content Include="scripts\entities\projectile.js" />
     <Content Include="scripts\entities\remotePlayer.js" />
     <Content Include="scripts\lib\socket.io.min.js" />
     <Content Include="scripts\main.js" />

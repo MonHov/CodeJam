@@ -18,17 +18,24 @@ define(["entities/player", "phaser"], function (player, Phaser) {
     LocalPlayer.prototype.update = function(position) {
         player.prototype.update.apply(this, position);
 
+        mouseX = this.game.input.x; mouseY = this.game.input.y;
+
+        if (mouseX > this.sprite.body.x) {
+            this.sprite.scale.x = -1;
+        } else {
+            this.sprite.scale.x = 1;
+        }
+
+
         this.sprite.body.velocity.x = 0;
 
         if (this.keyboard.isDown(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
             this.sprite.body.velocity.x = 225;
-            this.sprite.scale.x = -1;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
             this.sprite.body.acceleration.x = 0;
         }
         if (this.keyboard.isDown(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.velocity.x = -225;
-            this.sprite.scale.x = 1;
         } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.acceleration.x = 0;
         }

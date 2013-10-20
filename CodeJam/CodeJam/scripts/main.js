@@ -13,6 +13,8 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     var height = 640;
 
     var game;
+    var fireRate = 200;
+    var nextFire = 0;
 
     var myPlayer;
     var playerId;
@@ -102,12 +104,21 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
         //game.stage.disablePauseScreen = true;
         game.load.image('mario', 'assets/player.mario.png');
         game.load.image('otis-small', 'assets/player.otis.small.png');
+
+        //load the projectile
+        game.load.image('projectile', 'assets/projectile.png');
     }
 
     function create() {
         game.stage.backgroundColor = '#93CCEA';
 
         map = game.add.tilemap('desert');
+
+        bullets = game.add.group();
+        bullets.createMultiple(50, 'projectile');
+        bullets.setAll('anchor.x', 0.5);
+        bullets.setAll('anchor.y', 0.5);
+        bullets.setAll('outOfBoundsKill', true);
                 
         tileset = game.add.tileset('tiles');
 
@@ -138,6 +149,35 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
         game.physics.collide(myPlayer.sprite, otherPlayerGroup, collisionHandler, null, this);
         game.physics.collide(myPlayer.sprite, layer);
         myPlayer.update();
+
+        
+        game.physics.collide(myPlayer.sprite, bullets, bulletHandler, null, this);
+
+        if (game.input.activePointer.isDown) {
+            createProjectile();
+        }
+    }
+
+    function bulletHandler(_player, _bullet) {
+        player = _player;
+        _bullet.kill();
+    }
+
+    function createProjectile() {
+        if (game.time.now > nextFire && bullets.countDead() > 0) {
+            nextFire = game.time.now + fireRate;
+
+            mouseX = game.input.x; mouseY = game.input.y;
+
+            var bullet = bullets.getFirstDead();
+            var offSetX = -30 * myPlayer.sprite.scale.x;
+            var offSetY = -20;
+            if (mouseY > myPlayer.sprite.y)
+                var offSetY = 20;
+            bullet.reset(myPlayer.sprite.x + offSetX, myPlayer.sprite.y + offSetY);
+
+            bullet.rotation = game.physics.moveToPointer(bullet, 600);
+        }
     }
 
     function collisionHandler(obj1, obj2) {
