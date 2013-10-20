@@ -197,39 +197,19 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
     GamePlayState.prototype.newProjectile = function (projectileInfo) {
         var shooter = projectileInfo.shooter;
 
-        //console.log(shooter + "" + this.localPlayer.id)
-
         if (shooter == this.localPlayer.id)
             return;
 
         var startX = projectileInfo.startX;
         var startY = projectileInfo.startY;
         var rotation = projectileInfo.rotation;
-        createBullet(startX, startY, rotation, shooter, this);
+        ProjectileManager.createProjectile(startX, startY, rotation, shooter, false);
     };
 
     GamePlayState.prototype.removeProjectile = function (projectileInfo) {
         var projectile = ProjectilePool.getProjectile(projectileInfo.id);
         projectile.kill();
         ProjectilePool.removeProjectile(projectile);
-    }
-
-    function createBullet(x, y, rot, shooter, gamePlayState) {
-        var bullet = gamePlayState.projectileGroup.getFirstDead();
-        bullet.reset(x, y);
-        bullet.rotation = rot;
-        bullet.body.velocity.x = 600;
-
-        if (shooter == gamePlayState.localPlayer.id) {
-            ProjectilePool.addProjectile(bullet);
-
-            NetworkManager.broadcastProjectile({
-                shooter: gamePlayState.localPlayer.id,
-                startX: x,
-                startY: y,
-                rotation: bullet.rot
-            });
-        }
     }
 
     GamePlayState.prototype.playerDied = function (playerInfo) {
