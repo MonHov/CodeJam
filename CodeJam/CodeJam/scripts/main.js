@@ -76,7 +76,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         var leftId = data.id;
         var leftPlayer = playerPool.removePlayer(leftId);
 
-        killPlayer(leftPlayer);
+        killPlayer(leftPlayer, leftId);
        
     });
 
@@ -207,7 +207,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         bullet.body.velocity.x = 600;
     }
 
-    function killPlayer(leftPlayer) {
+    function killPlayer(leftPlayer, leftID) {
         if (leftPlayer) {
             leftPlayer.sprite.destroy();
 
