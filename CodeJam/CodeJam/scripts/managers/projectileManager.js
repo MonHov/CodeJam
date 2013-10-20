@@ -23,9 +23,10 @@ define(["managers/networkManager"], function (NetworkManager) {
         }
     };
 
-    ProjectileManager.setPool = function (projectileGroup) {
+    ProjectileManager.createPool = function (projectileGroup) {
         this.projectileGroup = projectileGroup;
 
+        this.projectileGroup.createMultiple(200, 'projectile');
         this.projectileGroup.setAll('anchor.x', 0.5);
         this.projectileGroup.setAll('anchor.y', 0.5);
         this.projectileGroup.setAll('outOfBoundsKill', true);

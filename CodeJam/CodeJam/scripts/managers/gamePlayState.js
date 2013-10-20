@@ -59,9 +59,7 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         game.load.image('projectile', 'assets/projectile.png');
         game.load.spritesheet('entities', 'assets/spritesheet.png', 32, 32, 9);
 
-        var projectileGroup = game.add.group();
-        projectileGroup.createMultiple(200, 'projectile');
-        ProjectileManager.setPool(projectileGroup);
+        
 
     };
 
@@ -69,6 +67,8 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         var game = this.game;
 
         game.stage.backgroundColor = '#93CCEA';
+
+        ProjectileManager.createPool(game.add.group());
 
         this.map = game.add.tilemap('desert');
 
