@@ -203,7 +203,6 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         bullet.reset(x, y);
         bullet.rotation = rot;
         projectilePool.addProjectile(bullet);
-        console.log(x + y + rot);
     }
 
     function killPlayer(leftPlayer) {
