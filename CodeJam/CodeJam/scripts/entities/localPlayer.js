@@ -41,11 +41,11 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         if (this.keyboard.isDown(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.velocity.x = -225;
             this.sprite.animations.play('walk', 15, false);
-        } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
+        } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT) || this.keyboard.justReleased(Phaser.Keyboard.A)) {
             this.sprite.body.acceleration.x = 0;
         }
 
-        if (this.keyboard.isDown(Phaser.Keyboard.UP) || this.keyboard.justReleased(Phaser.Keyboard.SPACEBAR) || this.keyboard.justReleased(Phaser.Keyboard.W)) {
+        if (this.keyboard.isDown(Phaser.Keyboard.UP) || this.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || this.keyboard.isDown(Phaser.Keyboard.W)) {
             //if (this.sprite.body.touching.down) {
             if (this.game.time.now > this.jumpTimer && this.sprite.body.touching.down) {
                 //this.sprite.body.velocity.y = -600;
