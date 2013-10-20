@@ -190,9 +190,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         player = obj2.player;
 
         if (myPlayer.sprite.body.y < (player.sprite.body.y - (player.sprite.body.height / 2))) {
-
-            console.log(myPlayer.sprite.body.y, player.sprite.body.y);
-
+            
             NetworkManager.broadcastPlayerJumpedOn(player.id);
         }
     }
@@ -235,6 +233,9 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
 
     GamePlayState.prototype.newProjectile = function (projectileInfo) {
         var shooter = projectileInfo.shooter;
+
+        //console.log(shooter + "" + this.localPlayer.id)
+
         if (shooter == this.localPlayer.id)
             return;
 

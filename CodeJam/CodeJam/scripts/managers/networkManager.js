@@ -54,7 +54,6 @@ define(["socketio"], function (io) {
     };
     
     NetworkManager.broadcastProjectile = function (projectileInfo) {
-        console.log(projectileInfo);
         socket.emit("newprojectile", projectileInfo);
     };
 

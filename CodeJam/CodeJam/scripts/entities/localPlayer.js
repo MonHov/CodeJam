@@ -28,7 +28,6 @@ define(["entities/player", "phaser"], function (player, Phaser) {
             this.sprite.scale.x = -1;
         }
 
-
         this.sprite.body.velocity.x = 0;
 
         if (this.keyboard.isDown(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
