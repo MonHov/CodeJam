@@ -232,14 +232,26 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
 
     function killPlayer(killedPlayer, killedId, gamePlayState) {
         if (killedPlayer) {
-            killedPlayer.sprite.destroy();
+            killedPlayer.sprite.x = -5000;
+            killedPlayer.sprite.y = -5000;
 
             if (gamePlayState.localPlayer.id == killedId) {
                 gamePlayState.localPlayer.isDead = true;
+                respawnPlayer();
             }
 
             gamePlayState.otherPlayerGroup.remove(killedPlayer.sprite);
+
         }
+    }
+
+    function respawnPlayer() {
+        while (game.physics.collide(this.sprite, this.game.layer)) {
+            this.localPlayer.sprite.body.x = game.World.randomX;
+            this.localPlayer.sprite.body.y = game.World.randomY;
+        }
+
+        this.isDead = false;
     }
 
     GamePlayState.prototype.destroy = function () {

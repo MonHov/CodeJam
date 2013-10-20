@@ -7,7 +7,7 @@ define(["socketio"], function (io) {
 
     NetworkManager.connect = function () {
 
-        socket = io.connect("http://10.7.1.174:80");
+        socket = io.connect("http://192.168.1.143:80");
 
     };
 

@@ -75,8 +75,8 @@ define(["entities/player", "managers/projectileManager", "phaser"], function (pl
         };
     };
 
-    LocalPlayer.prototype.fire = function(){
-
+    LocalPlayer.prototype.fire = function () {
+        if (this.isDead) return;
         var projectileGroup = ProjectileManager.getPool();
 
         if (this.game.time.now > this.nextFire && projectileGroup.countDead() > 0) {
