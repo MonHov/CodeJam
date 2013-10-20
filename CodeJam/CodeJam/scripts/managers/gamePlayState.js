@@ -136,8 +136,6 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
     GamePlayState.prototype.bulletToBulletCollide = function (_bullet1, _bullet2) {
         _bullet1.kill();
         _bullet2.kill();
-        ProjectilePool.removeProjectile(_bullet1);
-        ProjectilePool.removeProjectile(_bullet2);
     };
 
     GamePlayState.prototype.bulletHandler = function (_player, _bullet) {

@@ -11,7 +11,7 @@ define(["managers/networkManager"], function (NetworkManager) {
         var bullet = this.projectileGroup.getFirstDead();
         bullet.reset(x, y);
         bullet.body.velocity.x = 600;
-        bullet.rotation = rot;
+        bullet.body.rotation = rot;
 
         if (isLocal) {
             NetworkManager.broadcastProjectile({
