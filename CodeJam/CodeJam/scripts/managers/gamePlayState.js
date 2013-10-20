@@ -31,7 +31,7 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
             this.playerId = data.id;
             this.otherIds = data.otherIds;
 
-            var game = new Phaser.Game(800, 640, Phaser.AUTO, '', {
+            var game = new Phaser.Game(800, 640, Phaser.CANVAS, '', {
                 preload: this.init.bind(this),
                 create: this.create.bind(this),
                 update: this.update.bind(this),
@@ -176,6 +176,9 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
 
     GamePlayState.prototype.render = function () {
         var game = this.game;
+
+        game.debug.renderSpriteCorners(this.localPlayer.sprite);
+        game.debug.renderSpriteCollision(this.localPlayer.sprite, 32, 32);
 
         if (this.localPlayer.isDead) {
             game.debug.renderText('you died', 20, 24);
