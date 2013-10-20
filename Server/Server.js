@@ -30,16 +30,8 @@ io.sockets.on('connection', function (socket) {
 	socket.userid = uuid();
 	socket.emit("gamejoin",{id:socket.userid,otherIds:playerIds});
 	
-	console.log(playerIds);
+	//console.log(playerIds);
 	playerIds.push(socket.userid);
-	
-	
-	//clients call this...
-	//this.socket.emit("playermove", {
-    //        id: this.id,
-    //        x: this.sprite.body.x,
-    //        y: this.sprite.body.y
-    //    });
 
     socket.on('playermove', function (data) {
         io.sockets.emit('playermove', data);
@@ -47,24 +39,24 @@ io.sockets.on('connection', function (socket) {
 	
 	socket.on('newprojectile', function (data) {
         io.sockets.emit('newprojectile', data);
-		console.log('\t socket.io:: client connected ' + socket.userid );
+		//console.log('\t CodeJam: New Projectile ' + data.projectile.id );
     });
 
     socket.on('playerjoin', function (data) {
-		console.log('\t socket.io:: client connected ' + socket.userid );
 		io.sockets.emit("playerjoin", {id:socket.userid});
 		playerCount++;
+		console.log('\t CodeJam: Player Joined ' + socket.userid );
     });
 	
 	socket.on('disconnect', function (data) {
-		console.log('\t socket.io:: client disconnected ' + socket.userid );
 		io.sockets.emit("playerleave", {id:socket.userid});
 		playerIds.splice(playerIds.indexOf(socket.userid),1);
 		playerCount--;
+		console.log('\t CodeJam: Player Disconnected ' + socket.userid );
 	});
 
 	socket.on('playerjumpedon', function (data) {
 	    io.sockets.emit("playerdied", { id: data.jumpedonid });
+		console.log('\t CodeJam: Jumped On! ' + socket.userid );
 	});
-	
 });
