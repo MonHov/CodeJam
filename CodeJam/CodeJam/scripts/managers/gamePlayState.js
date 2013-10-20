@@ -1,11 +1,12 @@
 ﻿
 define(["phaser",
     "managers/networkManager",
+    "managers/projectileManager",
     "entities/playerPool",
     "entities/localPlayer",
     "entities/remotePlayer",
     "entities/projectilePool"],
-function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, ProjectilePool) {
+function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, RemotePlayer) {
     
     function GamePlayState() {
         NetworkManager.connect();
@@ -46,7 +47,6 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         var game = this.game;
 
         this.otherPlayerGroup = game.add.group();
-        this.projectileGroup = game.add.group();
 
         game.load.tilemap('desert', 'assets/maps/collision.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tileset('tiles', 'assets/tiles/smb_tiles.png', 16, 16);
@@ -57,7 +57,11 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
 
         //load the projectile
         game.load.image('projectile', 'assets/projectile.png');
-        game.load.spritesheet('entities','assets/spritesheet.png',32,32,9)
+        game.load.spritesheet('entities', 'assets/spritesheet.png', 32, 32, 9);
+
+        var projectileGroup = game.add.group();
+        projectileGroup.createMultiple(200, 'projectile');
+        ProjectileManager.setPool(projectileGroup);
 
     };
 
@@ -67,11 +71,6 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         game.stage.backgroundColor = '#93CCEA';
 
         this.map = game.add.tilemap('desert');
-
-        this.projectileGroup.createMultiple(200, 'projectile');
-        this.projectileGroup.setAll('anchor.x', 0.5);
-        this.projectileGroup.setAll('anchor.y', 0.5);
-        this.projectileGroup.setAll('outOfBoundsKill', true);
 
         this.tileset = game.add.tileset('tiles');
 
@@ -113,19 +112,17 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
     GamePlayState.prototype.update = function () {
         var game = this.game;
 
+        var projectileGroup = ProjectileManager.getPool();
+
         if (this.otherPlayerGroup) {
             game.physics.collide(this.localPlayer.sprite, this.otherPlayerGroup, playersCollideWithPlayer, null, this);
-            game.physics.collide(this.otherPlayerGroup, this.projectileGroup, this.bulletHandler.bind(this), null, this);
+            game.physics.collide(this.otherPlayerGroup, projectileGroup, this.bulletHandler.bind(this), null, this);
         }
 
         game.physics.collide(this.localPlayer.sprite, this.layer);
-        //game.physics.collide(this.layer, this.projectileGroup, this.bulletHandler.bind(this), null, this);
-        game.physics.collide(this.projectileGroup, this.projectileGroup, this.bulletToBulletCollide.bind(this), null, this);
-        game.physics.collide(this.localPlayer.sprite, this.projectileGroup, this.bulletHandler.bind(this), null, this);
-
-        if (game.input.activePointer.isDown) {
-            playerClick(this);
-        }
+        //game.physics.collide(this.layer, projectileGroup, this.bulletHandler.bind(this), null, this);
+        game.physics.collide(projectileGroup, projectileGroup, this.bulletToBulletCollide.bind(this), null, this);
+        game.physics.collide(this.localPlayer.sprite, projectileGroup, this.bulletHandler.bind(this), null, this);
 
         var playerData = this.localPlayer.update();
 
@@ -147,42 +144,8 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         _bullet.kill();
         _player.body.velocity.x = 0;
         _player.body.velocity.y = 0;
-        ProjectilePool.removeProjectile(_bullet);
+        ProjectileManager.removeProjectile(_bullet);
     };
-
-    function playerClick(gamePlayState) {
-        var game = gamePlayState.game;
-
-        if (game.time.now > gamePlayState.localPlayer.nextFire && gamePlayState.projectileGroup.countDead() > 0) {
-            gamePlayState.localPlayer.nextFire = game.time.now + gamePlayState.localPlayer.fireRate;
-
-            mouseX = game.input.x;
-            mouseY = game.input.y;
-
-            var offSetX = 30 * gamePlayState.localPlayer.sprite.scale.x;
-            var offSetY = 10 - (gamePlayState.localPlayer.sprite.body.height / 2);
-
-            if (mouseY > gamePlayState.localPlayer.sprite.y)
-                offSetY = 10;
-
-            var startX = gamePlayState.localPlayer.sprite.x + offSetX;
-            var startY = gamePlayState.localPlayer.sprite.y + offSetY;
-
-            var bullet = gamePlayState.projectileGroup.getFirstDead();
-
-            bullet.reset(startX, startY);
-            var rot = game.physics.moveToPointer(bullet, 600);
-
-            NetworkManager.broadcastProjectile({
-                shooter: gamePlayState.localPlayer.id,
-                startX: startX,
-                startY: startY,
-                rotation: rot
-            });
-
-            ProjectilePool.addProjectile(bullet);
-        }
-    }
 
     function playersCollideWithPlayer(obj1, obj2) {
         //console.log(obj2);

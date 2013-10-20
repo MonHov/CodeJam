@@ -40,14 +40,18 @@
   <ItemGroup>
     <Content Include="assets\player.mario.png" />
     <Content Include="assets\player.otis.small.png" />
+    <Content Include="assets\projectile.png" />
+    <Content Include="assets\sandpaper.png" />
     <Content Include="assets\tiles\platformer_tiles.png" />
     <Content Include="assets\tiles\smb_tiles.png" />
     <Content Include="assets\tiles\tmw_desert_spacing.png" />
+    <Content Include="css\style.css" />
     <Content Include="index.html" />
     <Content Include="scripts\app.js" />
     <Content Include="scripts\entities\localPlayer.js" />
     <Content Include="scripts\entities\player.js" />
     <Content Include="scripts\entities\playerPool.js" />
+    <Content Include="scripts\entities\projectilePool.js" />
     <Content Include="scripts\entities\remotePlayer.js" />
     <Content Include="scripts\lib\socket.io.min.js" />
     <Content Include="scripts\main.js" />
@@ -55,6 +59,7 @@
     <Content Include="scripts\managers\gamePlayState.js" />
     <Content Include="scripts\managers\gameStateManager.js" />
     <Content Include="scripts\managers\networkManager.js" />
+    <Content Include="scripts\managers\projectileManager.js" />
     <Content Include="scripts\phaser.js" />
     <Content Include="scripts\r.js" />
     <Content Include="scripts\require.js" />
@@ -76,6 +81,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\maps\collision.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="scripts\managers\projectileManager.js.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="scripts\managers\projectileManager.js.designer.cs">
+      <DependentUpon>projectileManager.js.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

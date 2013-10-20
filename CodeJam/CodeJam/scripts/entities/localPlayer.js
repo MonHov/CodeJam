@@ -1,4 +1,4 @@
-define(["entities/player", "phaser"], function (player, Phaser) {
+define(["entities/player", "managers/projectileManager", "phaser"], function (player, ProjectileManager, Phaser) {
 
     function LocalPlayer(sprite, game) {
         player.apply(this, arguments);
@@ -59,12 +59,42 @@ define(["entities/player", "phaser"], function (player, Phaser) {
             }
         }
 
+        if (this.game.input.activePointer.isDown) {
+            this.fire();
+        }
+
         return {
             id: this.id,
             x: this.sprite.body.x,
             y: this.sprite.body.y,
             scale: this.sprite.scale.x
         };
+    };
+
+    LocalPlayer.prototype.fire = function(){
+
+        var projectileGroup = ProjectileManager.getPool();
+
+        if (this.game.time.now > this.nextFire && projectileGroup.countDead() > 0) {
+            this.nextFire = this.game.time.now + this.fireRate;
+
+            mouseX = this.game.input.x;
+            mouseY = this.game.input.y;
+
+            var offSetX = 30 * this.sprite.scale.x;
+            var offSetY = 10 - (this.sprite.body.height / 2);
+
+            if (mouseY > this.sprite.y)
+                offSetY = 10;
+
+            var startX = this.sprite.x + offSetX;
+            var startY = this.sprite.y + offSetY;
+
+            //calculate a vector based on mouse location         
+            var rot = this.game.physics.angleToPointer(this.sprite);
+
+            ProjectileManager.createProjectile(startX, startY, rot, this.id, true);
+        }
     };
 
     return LocalPlayer;
