@@ -33,6 +33,13 @@ define(["entities/player", "phaser"], function (player, Phaser) {
                 }
             }
         }
+
+        this.socket.emit("playermove", {
+            id: this.id,
+            x: this.sprite.body.x,
+            y: this.sprite.body.y
+        });
+
     };
 
     return LocalPlayer;

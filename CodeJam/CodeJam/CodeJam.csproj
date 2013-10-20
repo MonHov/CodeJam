@@ -47,11 +47,11 @@
     <Content Include="scripts\entities\localPlayer.js" />
     <Content Include="scripts\entities\player.js" />
     <Content Include="scripts\entities\remotePlayer.js" />
+    <Content Include="scripts\lib\socket.io.min.js" />
     <Content Include="scripts\main.js" />
     <Content Include="scripts\phaser.js" />
     <Content Include="scripts\r.js" />
     <Content Include="scripts\require.js" />
-    <Content Include="scripts\main.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
