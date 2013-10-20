@@ -64,6 +64,8 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
     });
 
     socket.on("newProjectile", function (data) {
+        shooter = data.shooter;
+        if (shooter == myPlayer.id) return;
         startX = data.startX;
         startY = data.startY;
         rotation = data.rotation;
@@ -161,6 +163,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
 
     function bulletHandler(_player, _bullet) {
         player = _player;
+        if (player.id == _bullet.id) return;
         projectilePool.removeProjectile(_bullet);
 
         _bullet.kill();
@@ -182,12 +185,13 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
             startY = myPlayer.sprite.y + offSetY;
             var bullet = projectileGroup.getFirstDead();
             bullet.reset(startX, startY);
-            bullet.rotation = game.physics.moveToPointer(bullet, 600);
+            rot = game.physics.moveToPointer(bullet, 600);
 
             myPlayer.socket.emit("newProjectile", {
+                shooter: myPlayer.id,
                 startX: startX,
                 startY: startY,
-                rotation: bullet.rotation
+                rotation: rot
             });
             
             projectilePool.addProjectile(bullet);
