@@ -209,7 +209,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
                 myPlayer.isDead = true;
             }
 
-            otherPlayerGroup.remove(myPlayer.sprite);
+            otherPlayerGroup.remove(leftPlayer.sprite);
         }
     }
 
