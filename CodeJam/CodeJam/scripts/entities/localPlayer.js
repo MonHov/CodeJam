@@ -81,14 +81,10 @@ define(["entities/player", "managers/projectileManager", "phaser"], function (pl
             mouseX = this.game.input.x;
             mouseY = this.game.input.y;
 
-            var offSetX = 30 * this.sprite.scale.x;
-            var offSetY = 10 - (this.sprite.body.height / 2);
-
-            if (mouseY > this.sprite.y)
-                offSetY = 10;
+            var offSetX = 20 * this.sprite.scale.x;
 
             var startX = this.sprite.x + offSetX;
-            var startY = this.sprite.y + offSetY;
+            var startY = this.sprite.y;
 
             //calculate a vector based on mouse location         
             var rot = this.game.physics.angleToPointer(this.sprite);
