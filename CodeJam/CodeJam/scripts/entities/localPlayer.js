@@ -37,7 +37,7 @@ define(["entities/player", "phaser"], function (player, Phaser) {
             //if (this.sprite.body.touching.down) {
             if (this.game.time.now > this.jumpTimer && this.sprite.body.touching.down) {
                 //this.sprite.body.velocity.y = -600;
-                this.jumpTimer = this.game.time.now + 900;                
+                this.jumpTimer = this.game.time.now + 600;                
                 
                 if (Math.abs(this.sprite.body.velocity.x) >= this.sprite.body.maxVelocity.x - 15) {
                     console.log("turbo jump");
@@ -51,7 +51,8 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         this.socket.emit("playermove", {
             id: this.id,
             x: this.sprite.body.x,
-            y: this.sprite.body.y
+            y: this.sprite.body.y,
+            scale: this.sprite.scale.x
         });
 
     };
