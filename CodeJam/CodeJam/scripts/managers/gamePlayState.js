@@ -68,7 +68,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
 
         this.map = game.add.tilemap('desert');
 
-        this.projectileGroup.createMultiple(50, 'projectile');
+        this.projectileGroup.createMultiple(200, 'projectile');
         this.projectileGroup.setAll('anchor.x', 0.5);
         this.projectileGroup.setAll('anchor.y', 0.5);
         this.projectileGroup.setAll('outOfBoundsKill', true);
@@ -135,13 +135,9 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
     };
 
     GamePlayState.prototype.bulletHandler = function(_player, _bullet) {
-        player = _player;
-        if (player.id == _bullet.id)
-            return;
-
         _bullet.kill();
-        player.sprite.velocity.x = 0;
-        player.sprite.velocity.y = 0;
+        _player.body.velocity.x = 0;
+        _player.body.velocity.y = 0;
         ProjectilePool.removeProjectile(_bullet);
     };
 
@@ -229,7 +225,6 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
     };
 
     GamePlayState.prototype.newProjectile = function (projectileInfo) {
-        console.log(projectileInfo);
         var shooter = projectileInfo.shooter;
         if (shooter == this.localPlayer.id)
             return;
@@ -237,7 +232,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         var startX = projectileInfo.startX;
         var startY = projectileInfo.startY;
         var rotation = projectileInfo.rotation;
-        createBullet(startX, startY, rotation, this);
+        createBullet(startX, startY, rotation, shooter, this);
     };
 
     GamePlayState.prototype.removeProjectile = function (projectileInfo) {
@@ -246,20 +241,22 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         ProjectilePool.removeProjectile(projectile);
     }
 
-    function createBullet(x, y, rot, gamePlayState) {
+    function createBullet(x, y, rot, shooter, gamePlayState) {
         var bullet = gamePlayState.projectileGroup.getFirstDead();
         bullet.reset(x, y);
         bullet.rotation = rot;
         bullet.body.velocity.x = 600;
-        
-        NetworkManager.broadcastProjectile({
-            shooter: gamePlayState.localPlayer.id,
-            startX: x,
-            startY: y,
-            rotation: bullet.rot
-        });
 
-        ProjectilePool.addProjectile(bullet);
+        if (shooter == gamePlayState.localPlayer.id) {
+            ProjectilePool.addProjectile(bullet);
+
+            NetworkManager.broadcastProjectile({
+                shooter: gamePlayState.localPlayer.id,
+                startX: x,
+                startY: y,
+                rotation: bullet.rot
+            });
+        }
     }
 
     GamePlayState.prototype.playerDied = function (playerInfo) {
