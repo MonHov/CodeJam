@@ -152,8 +152,19 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         myPlayer = obj1.player;
         player = obj2.player;
 
-        if (myPlayer.sprite.body.y < (player.sprite.body.y - (player.sprite.body.height / 2))) {
-            
+        var myPlayerFalling = myPlayer.sprite.body.velocity.y < 0;
+        var myPlayerY = myPlayer.sprite.body.y;
+        var halfHeight = player.sprite.body.height * 0.5;
+        var otherPlayerHeadY = (player.sprite.body.y - halfHeight) - 10;
+
+        var myPlayerX = myPlayer.sprite.body.x;
+        var playerX = player.sprite.body.x;
+        var width = player.sprite.body.width;
+        var above = (myPlayerX - playerX) < width * 0.3;
+
+
+        if (myPlayerY < otherPlayerHeadY && myPlayerFalling && above) {
+            myPlayer.sprite.body.velocity.y = -250;
             NetworkManager.broadcastPlayerJumpedOn(player.id);
         }
     }
