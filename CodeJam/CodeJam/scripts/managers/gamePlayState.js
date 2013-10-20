@@ -115,10 +115,12 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
 
         if (this.otherPlayerGroup) {
             game.physics.collide(this.localPlayer.sprite, this.otherPlayerGroup, playersCollideWithPlayer, null, this);
+            game.physics.collide(this.otherPlayerGroup, this.projectileGroup, this.bulletHandler.bind(this), null, this);
         }
 
         game.physics.collide(this.localPlayer.sprite, this.layer);
-        
+        //game.physics.collide(this.layer, this.projectileGroup, this.bulletHandler.bind(this), null, this);
+        game.physics.collide(this.projectileGroup, this.projectileGroup, this.bulletHandler.bind(this), null, this);
         game.physics.collide(this.localPlayer.sprite, this.projectileGroup, this.bulletHandler.bind(this), null, this);
 
         if (game.input.activePointer.isDown) {
@@ -134,7 +136,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         });
     };
 
-    GamePlayState.prototype.bulletHandler = function(_player, _bullet) {
+    GamePlayState.prototype.bulletHandler = function (_player, _bullet) {
         _bullet.kill();
         _player.body.velocity.x = 0;
         _player.body.velocity.y = 0;
