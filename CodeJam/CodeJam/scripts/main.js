@@ -74,7 +74,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
     socket.on("playerdied", function (data) {
 
         var leftId = data.id;
-        var leftPlayer = playerPool.removePlayer(leftID);
+        var leftPlayer = playerPool.removePlayer(leftId);
 
         killPlayer(leftPlayer, leftId);
        
@@ -166,7 +166,8 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         player = _player;
         if (player.id == _bullet.id) return;
         _bullet.kill();
-        player.velocity = 0;
+        player.sprite.velocity.x = 0;
+        player.sprite.velocity.y = 0;
         projectilePool.removeProjectile(_bullet);
     }
 
