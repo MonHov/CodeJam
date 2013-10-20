@@ -85,13 +85,19 @@ define(["entities/player", "managers/projectileManager", "phaser"], function (pl
             mouseX = this.game.input.x;
             mouseY = this.game.input.y;
 
+            console.log(mouseX + " " + mouseY);
+
+            //console.log(this.sprite.x + " " + this.sprite.y);
+
             var offSetX = 20 * this.sprite.scale.x;
 
             var startX = this.sprite.x + offSetX;
             var startY = this.sprite.y;
 
+            console.log(startX + " " + startY);
+
             //calculate a vector based on mouse location         
-            var rot = this.game.physics.angleToPointer(this.sprite);
+            var rot = this.game.physics.angleToPointer({ x: startX, y: startY });
 
             ProjectileManager.createProjectile(startX, startY, rot, this.id, true);
         }
