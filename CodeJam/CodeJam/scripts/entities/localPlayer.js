@@ -24,8 +24,14 @@ define(["entities/player", "phaser"], function (player, Phaser) {
 
         if (this.keyboard.isDown(Phaser.Keyboard.UP))
         {
-            if (this.sprite.body.touching.down)
-            this.sprite.body.velocity.y = -300;
+            if (this.sprite.body.touching.down) {              
+                if (Math.abs(this.sprite.body.velocity.x) >= this.sprite.body.maxVelocity.x - 15) {
+                    console.log("turbo jump");
+                    this.sprite.body.velocity.y = -500;
+                } else {
+                    this.sprite.body.velocity.y = -450;
+                }
+            }
         }
     };
 

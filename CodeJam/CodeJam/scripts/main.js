@@ -49,6 +49,7 @@ define(["phaser", "entities/localPlayer", "entities/remotePlayer"], function (Ph
         //var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
         var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'otis-small');
         player = new localPlayer(playerSprite, game, socket);
+        game.camera.follow(player.sprite);
     }
 
     function update() {
