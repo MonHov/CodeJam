@@ -124,7 +124,7 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         game.physics.collide(this.localPlayer.sprite, this.layer);
         //game.physics.collide(this.layer, projectileGroup, this.bulletHandler.bind(this), null, this);
         game.physics.collide(projectileGroup, projectileGroup, this.bulletToBulletCollide.bind(this), null, this);
-        //game.physics.collide(this.localPlayer.sprite, projectileGroup, this.bulletHandler.bind(this), null, this);
+        game.physics.collide(this.localPlayer.sprite, projectileGroup, this.bulletHandler.bind(this), null, this);
 
         var playerData = this.localPlayer.update();
 
@@ -142,8 +142,8 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
 
     GamePlayState.prototype.bulletHandler = function (_player, _bullet) {
         _bullet.kill();
-        _player.body.velocity.x = 0;
-        _player.body.velocity.y = 0;
+        this.localPlayer.sprite.body.velocity.x = 0;
+        this.localPlayer.sprite.body.velocity.y = 0;
         ProjectileManager.removeProjectile(_bullet);
     };
 
