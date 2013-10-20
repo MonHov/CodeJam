@@ -31,7 +31,7 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
             this.playerId = data.id;
             this.otherIds = data.otherIds;
 
-            var game = new Phaser.Game(800, 640, Phaser.AUTO, 'game', {
+            var game = new Phaser.Game(800, 640, Phaser.AUTO, '', {
                 preload: this.init.bind(this),
                 create: this.create.bind(this),
                 update: this.update.bind(this),
