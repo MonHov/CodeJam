@@ -224,7 +224,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
 
         player = obj2.player;
 
-        if (myPlayer.sprite.body.y > player.sprite.body.y) {
+        if (myPlayer.sprite.body.y < (player.sprite.body.y - (player.sprite.body.height / 2))) {
 
             console.log(myPlayer.sprite.body.y, player.sprite.body.y);
 
