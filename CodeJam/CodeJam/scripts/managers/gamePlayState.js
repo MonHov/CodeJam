@@ -222,6 +222,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
     };
 
     GamePlayState.prototype.newProjectile = function (projectileInfo) {
+        console.log(projectileInfo);
         var shooter = projectileInfo.shooter;
         if (shooter == this.localPlayer.id)
             return;
@@ -233,7 +234,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
     };
 
     GamePlayState.prototype.removeProjectile = function (projectileInfo) {
-        var projectile = ProjectilePool.getgetProjectile(projectileInfo.id);
+        var projectile = ProjectilePool.getProjectile(projectileInfo.id);
         projectile.kill();
         ProjectilePool.removeProjectile(projectile);
     }
@@ -243,13 +244,13 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         bullet.reset(x, y);
         bullet.rotation = rot;
         bullet.body.velocity.x = 600;
-        createBullet(startX, startY, rotation, this);
+        createBullet(x, y, rot, this);
         
         NetworkManager.broadcastProjectile({
             shooter: gamePlayState.LocalPlayer.id,
             startX: x,
             startY: y,
-            rotation: bullet.rotation
+            rotation: bullet.rot
         });
 
         ProjectilePool.addProjectile(bullet);

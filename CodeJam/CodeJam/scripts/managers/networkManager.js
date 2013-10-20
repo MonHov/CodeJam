@@ -34,11 +34,11 @@ define(["socketio"], function (io) {
     };
 
     NetworkManager.newProjectile = function (onSuccess) {
-        socket.on("newProjectile", onSuccess);
+        socket.on("newprojectile", onSuccess);
     };
 
     NetworkManager.removeProjectile = function (onSuccess) {
-        socket.on("removeProjectile", onSuccess);
+        socket.on("removeprojectile", onSuccess);
     };
 
     NetworkManager.playerDied = function (onSuccess) {
@@ -53,8 +53,9 @@ define(["socketio"], function (io) {
         socket.emit("playerjumpedon", { jumpedonid: playerId });
     };
     
-    NetworkManager.broadcastProjectile = function(projectileInfo) {
-        socket.emit("newProjectile", projectileInfo);
+    NetworkManager.broadcastProjectile = function (projectileInfo) {
+        console.log(projectileInfo);
+        socket.emit("newprojectile", projectileInfo);
     };
 
     NetworkManager.disconnect = function() {
