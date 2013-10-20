@@ -69,7 +69,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('disconnect', function (data) {
 		console.log('\t socket.io:: client disconnected ' + socket.userid );
 		io.sockets.emit("playerleave", {id:socket.userid});
-		//playerIds.splice(playerIds.indexOf(socket.userid),1);
+		playerIds.splice(playerIds.indexOf(socket.userid),1);
 		playerCount--;
 	});
 
