@@ -101,6 +101,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
 
         if (!PlayerPool.getPlayer(newPlayerId)) {
             var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'entities');
+            playerSprite.animations.add('walk');
             var newPlayer = new RemotePlayer(playerSprite, game, newPlayerId);
             PlayerPool.addPlayer(newPlayerId, newPlayer);
 
@@ -127,6 +128,10 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         var playerData = this.localPlayer.update();
 
         NetworkManager.broadcastPlayerMove(playerData);
+
+        this.otherPlayerGroup.forEach(function(otherPlayerSprite) {
+            otherPlayerSprite.player.update();
+        });
     };
 
     GamePlayState.prototype.bulletHandler = function(_player, _bullet) {
@@ -138,7 +143,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         player.sprite.velocity.x = 0;
         player.sprite.velocity.y = 0;
         ProjectilePool.removeProjectile(_bullet);
-    }
+    };
 
     function playerClick(gamePlayState) {
         var game = gamePlayState.game;

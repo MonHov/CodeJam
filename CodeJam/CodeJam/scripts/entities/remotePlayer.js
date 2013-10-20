@@ -5,13 +5,15 @@ define(["entities/player"], function (player) {
 
         this.keyboard = game.input.keyboard;
         this.sprite.body.immovable = true;
+        this.previousPosition = {x:0}; 
     }
 
     RemotePlayer.prototype.update = function(position) {
         player.prototype.update.apply(this, position);
 
-        if (position) {
-
+        if (this.previousPosition.x !== this.sprite.body.x) {
+            this.sprite.animations.play('walk', 15, false);
+            this.previousPosition.x = this.sprite.body.x;
         }
     };
 
