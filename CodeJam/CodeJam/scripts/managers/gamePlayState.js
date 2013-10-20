@@ -99,8 +99,10 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         var game = this.game;
 
         if (!PlayerPool.getPlayer(newPlayerId)) {
-            var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'entities');
-            playerSprite.animations.add('walk');
+            var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'edgar');
+            playerSprite.animations.add('idle',[0])
+            playerSprite.animations.add('walk',[1,2,3,4,5,6,7,8]);
+
             var newPlayer = new RemotePlayer(playerSprite, game, newPlayerId);
             PlayerPool.addPlayer(newPlayerId, newPlayer);
 

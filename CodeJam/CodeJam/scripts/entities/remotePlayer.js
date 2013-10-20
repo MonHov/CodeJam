@@ -14,6 +14,8 @@ define(["entities/player"], function (player) {
         if (this.previousPosition.x !== this.sprite.body.x) {
             this.sprite.animations.play('walk', 15, false);
             this.previousPosition.x = this.sprite.body.x;
+        } else {
+            this.sprite.animations.play('idle', 1, true);
         }
     };
 
