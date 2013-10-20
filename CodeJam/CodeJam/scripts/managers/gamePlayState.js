@@ -247,8 +247,8 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
 
     function respawnPlayer(gamePlayState) {
         while (gamePlayState.game.physics.collide(this.sprite, gamePlayState.game.layer)) {
-            this.localPlayer.sprite.body.x = gamePlayState.game.World.randomX;
-            this.localPlayer.sprite.body.y = gamePlayState.game.World.randomY;
+            this.localPlayer.sprite.x = gamePlayState.game.World.randomX;
+            this.localPlayer.sprite.y = gamePlayState.game.World.randomY;
         }
 
         this.isDead = false;
