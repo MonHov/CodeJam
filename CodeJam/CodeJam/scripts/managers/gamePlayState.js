@@ -237,7 +237,7 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
 
             if (gamePlayState.localPlayer.id == killedId) {
                 gamePlayState.localPlayer.isDead = true;
-                respawnPlayer();
+                respawnPlayer(gamePlayState);
             }
 
             gamePlayState.otherPlayerGroup.remove(killedPlayer.sprite);
@@ -245,10 +245,10 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         }
     }
 
-    function respawnPlayer() {
-        while (game.physics.collide(this.sprite, this.game.layer)) {
-            this.localPlayer.sprite.body.x = game.World.randomX;
-            this.localPlayer.sprite.body.y = game.World.randomY;
+    function respawnPlayer(gamePlayState) {
+        while (gamePlayState.game.physics.collide(this.sprite, gamePlayState.game.layer)) {
+            this.localPlayer.sprite.body.x = gamePlayState.game.World.randomX;
+            this.localPlayer.sprite.body.y = gamePlayState.game.World.randomY;
         }
 
         this.isDead = false;
