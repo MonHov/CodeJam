@@ -57,9 +57,8 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         var leftId = data.id;
         var leftPlayer = playerPool.removePlayer(leftId);
         if (leftPlayer) {
-            leftPlayer.sprite.destroy();
-
             otherPlayerGroup.remove(leftPlayer.sprite);
+            leftPlayer.sprite.destroy();
         }
     });
 
@@ -76,6 +75,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
 
         var leftId = data.id;
         var leftPlayer = playerPool.removePlayer(leftId);
+
         killPlayer(leftPlayer);
        
     });
@@ -145,11 +145,12 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         }
     }
 
-     
-    var b;
     function update() {
 
-        game.physics.collide(myPlayer.sprite, otherPlayerGroup, collisionHandler, null, this);
+        if (otherPlayerGroup) {
+            game.physics.collide(myPlayer.sprite, otherPlayerGroup, collisionHandler, null, this);
+        }
+
         game.physics.collide(myPlayer.sprite, layer);
         myPlayer.update();
 
@@ -203,7 +204,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         bullet.reset(x, y);
         bullet.rotation = rot;
         projectilePool.addProjectile(bullet);
-        console.log(x + y + rot);
+        bullet.body.velocity.x = 600;
     }
 
     function killPlayer(leftPlayer) {
@@ -223,9 +224,11 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
 
         player = obj2.player;
 
-        if (myPlayer.sprite.body.y > player.sprite.body.y + 60) {
+        if (myPlayer.sprite.body.y > player.sprite.body.y) {
 
-            player.socket.emit("playermove", {
+            console.log(myPlayer.sprite.body.y, player.sprite.body.y);
+
+            player.socket.emit("playerjumpedon", {
                 jumpedonid: player.id
             });
         }
@@ -236,11 +239,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         if (myPlayer.isDead) {
             game.debug.renderText('you died', 20, 24);
         }
-
+        
         game.debug.renderSpriteCorners(myPlayer.sprite);
-
-        //for (var player in otherPlayerGroup) {
-        //    game.debug.renderSpriteCorners(player);
-        //}
     }
 });

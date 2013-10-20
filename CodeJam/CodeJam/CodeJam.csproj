@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="assets\player.mario.png" />
+    <Content Include="assets\player.otis.small.png" />
     <Content Include="assets\tiles\platformer_tiles.png" />
     <Content Include="assets\tiles\smb_tiles.png" />
     <Content Include="assets\tiles\tmw_desert_spacing.png" />
@@ -47,7 +48,6 @@
     <Content Include="scripts\entities\localPlayer.js" />
     <Content Include="scripts\entities\player.js" />
     <Content Include="scripts\entities\playerPool.js" />
-    <Content Include="scripts\entities\projectile.js" />
     <Content Include="scripts\entities\remotePlayer.js" />
     <Content Include="scripts\lib\socket.io.min.js" />
     <Content Include="scripts\main.js" />
