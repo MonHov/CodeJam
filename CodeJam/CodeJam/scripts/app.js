@@ -14,4 +14,11 @@ requirejs.config({
     }
 });
 
+window.addEventListener('keydown', function(e) {
+    var keyCode = e.keyCode;
+    if (keyCode == 32 || (keyCode >= 37 && keyCode <= 40)) {
+        e.preventDefault();
+    }
+});
+
 requirejs(["main"]);
