@@ -8,16 +8,18 @@ define(["managers/networkManager"], function (NetworkManager) {
 
     ProjectileManager.createProjectile = function (x, y, rot, playerID, isLocal) {
 
+        console.log(x + " : " + y);
+
         var bullet = this.projectileGroup.getFirstDead();
         bullet.reset(x, y);
 
         //bullet.body.velocity.x = 600;
 
-        var x = Math.cos(rot);
-        var y = Math.sin(-rot);
+        var velocityX = Math.cos(rot);
+        var velocityY = Math.sin(-rot);
 
-        bullet.body.velocity.x = 600 * x;
-        bullet.body.velocity.y = -600 * y;
+        bullet.body.velocity.x = 600 * velocityX;
+        bullet.body.velocity.y = -600 * velocityY;
 
         bullet.rotation = rot;
 
