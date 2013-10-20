@@ -208,7 +208,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         bullet.body.velocity.x = 600;
     }
 
-    function killPlayer(leftPlayer, leftID) {
+    function killPlayer(leftPlayer, leftId) {
         if (leftPlayer) {
             leftPlayer.sprite.destroy();
 
