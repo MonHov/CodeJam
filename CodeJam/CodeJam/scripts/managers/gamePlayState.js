@@ -246,10 +246,10 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         bullet.reset(x, y);
         bullet.rotation = rot;
         bullet.body.velocity.x = 600;
-        createBullet(x, y, rot, this);
+        //createBullet(x, y, rot, this);
         
         NetworkManager.broadcastProjectile({
-            shooter: gamePlayState.LocalPlayer.id,
+            shooter: gamePlayState.localPlayer.id,
             startX: x,
             startY: y,
             rotation: bullet.rot
