@@ -7,7 +7,7 @@ define(function() {
 
         this.sprite.body.collideWorldBounds = true;
         this.sprite.width = 32;
-        this.sprite.height = 64;
+        this.sprite.height = 32;
 
         this.sprite.anchor.x = 0.5;
 

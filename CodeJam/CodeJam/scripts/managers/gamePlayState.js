@@ -52,11 +52,12 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         game.load.tileset('tiles', 'assets/tiles/smb_tiles.png', 16, 16);
 
         //game.stage.disablePauseScreen = true;
-        game.load.image('mario', 'assets/player.mario.png');
-        game.load.image('otis-small', 'assets/player.otis.small.png');
+        //game.load.image('mario', 'assets/player.mario.png');
+        //game.load.image('otis-small', 'assets/player.otis.small.png');
 
         //load the projectile
         game.load.image('projectile', 'assets/projectile.png');
+        game.load.spritesheet('entities','assets/spritesheet.png',32,32,9)
 
     };
 
@@ -81,7 +82,8 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         this.layer.resizeWorld();
 
         //var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
-        var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'otis-small');
+        var playerSprite = game.add.sprite(game.stage.width * 0.5 - 16, 180, 'entities');
+        playerSprite.animations.add('walk');
         this.localPlayer = new LocalPlayer(playerSprite, game, this.playerId);
         PlayerPool.addPlayer(this.playerId, this.localPlayer);
 

@@ -23,9 +23,9 @@ define(["entities/player", "phaser"], function (player, Phaser) {
         mouseX = this.game.input.x; mouseY = this.game.input.y;
 
         if (mouseX > this.sprite.body.x) {
-            this.sprite.scale.x = -1;
-        } else {
             this.sprite.scale.x = 1;
+        } else {
+            this.sprite.scale.x = -1;
         }
 
 
@@ -33,16 +33,19 @@ define(["entities/player", "phaser"], function (player, Phaser) {
 
         if (this.keyboard.isDown(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
             this.sprite.body.velocity.x = 225;
-        } else if (this.keyboard.justReleased(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
+            this.sprite.animations.play('walk', 15, false);
+        } else if (this.keyboard.justReleased(Phaser.Keyboard.RIGHT) || this.keyboard.justReleased(Phaser.Keyboard.D)) {
             this.sprite.body.acceleration.x = 0;
         }
+
         if (this.keyboard.isDown(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.velocity.x = -225;
+            this.sprite.animations.play('walk', 15, false);
         } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.acceleration.x = 0;
         }
 
-        if (this.keyboard.isDown(Phaser.Keyboard.UP) || this.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        if (this.keyboard.isDown(Phaser.Keyboard.UP) || this.keyboard.justReleased(Phaser.Keyboard.SPACEBAR) || this.keyboard.justReleased(Phaser.Keyboard.W)) {
             //if (this.sprite.body.touching.down) {
             if (this.game.time.now > this.jumpTimer && this.sprite.body.touching.down) {
                 //this.sprite.body.velocity.y = -600;
