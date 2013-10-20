@@ -118,13 +118,13 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
 
         if (this.otherPlayerGroup) {
             game.physics.collide(this.localPlayer.sprite, this.otherPlayerGroup, playersCollideWithPlayer, null, this);
-            game.physics.collide(this.otherPlayerGroup, projectileGroup, this.bulletHandler.bind(this), null, this);
+            game.physics.collide(this.otherPlayerGroup, projectileGroup, this.remotePlayerHit.bind(this), null, this);
         }
 
         game.physics.collide(this.localPlayer.sprite, this.layer);
         //game.physics.collide(this.layer, projectileGroup, this.bulletHandler.bind(this), null, this);
         game.physics.collide(projectileGroup, projectileGroup, this.bulletToBulletCollide.bind(this), null, this);
-        game.physics.collide(this.localPlayer.sprite, projectileGroup, this.bulletHandler.bind(this), null, this);
+        game.physics.collide(this.localPlayer.sprite, projectileGroup, this.localPlayerHit.bind(this), null, this);
 
         var playerData = this.localPlayer.update();
 
@@ -140,10 +140,16 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         _bullet2.kill();
     };
 
-    GamePlayState.prototype.bulletHandler = function (_player, _bullet) {
+    GamePlayState.prototype.localPlayerHit = function (_player, _bullet){
         _bullet.kill();
         this.localPlayer.sprite.body.velocity.x = 0;
         this.localPlayer.sprite.body.velocity.y = 0;
+
+        ProjectileManager.removeProjectile(_bullet);
+    };
+
+    GamePlayState.prototype.remotePlayerHit = function (_player, _bullet) {
+        _bullet.kill();
         ProjectileManager.removeProjectile(_bullet);
     };
 
@@ -232,23 +238,21 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
 
     function killPlayer(killedPlayer, killedId, gamePlayState) {
         if (killedPlayer) {
-            killedPlayer.sprite.x = -5000;
-            killedPlayer.sprite.y = -5000;
+            console.log("Killing player");
+            killedPlayer.sprite.body.x = -5000;
+            killedPlayer.sprite.body.y = -5000;
 
             if (gamePlayState.localPlayer.id == killedId) {
                 gamePlayState.localPlayer.isDead = true;
                 respawnPlayer(gamePlayState);
             }
-
-            gamePlayState.otherPlayerGroup.remove(killedPlayer.sprite);
-
         }
     }
 
     function respawnPlayer(gamePlayState) {
         while (gamePlayState.game.physics.collide(this.sprite, gamePlayState.game.layer)) {
-            this.localPlayer.sprite.x = gamePlayState.game.World.randomX;
-            this.localPlayer.sprite.y = gamePlayState.game.World.randomY;
+            this.localPlayer.sprite.body.x = gamePlayState.game.World.randomX;
+            this.localPlayer.sprite.body.y = gamePlayState.game.World.randomY;
         }
 
         this.isDead = false;
