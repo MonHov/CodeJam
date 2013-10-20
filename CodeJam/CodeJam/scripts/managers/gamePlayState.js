@@ -100,7 +100,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
         var game = this.game;
 
         if (!PlayerPool.getPlayer(newPlayerId)) {
-            var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'otis-small');
+            var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'entities');
             var newPlayer = new RemotePlayer(playerSprite, game, newPlayerId);
             PlayerPool.addPlayer(newPlayerId, newPlayer);
 
