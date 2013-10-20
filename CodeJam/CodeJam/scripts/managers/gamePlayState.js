@@ -124,7 +124,7 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         game.physics.collide(this.localPlayer.sprite, this.layer);
         //game.physics.collide(this.layer, projectileGroup, this.bulletHandler.bind(this), null, this);
         game.physics.collide(projectileGroup, projectileGroup, this.bulletToBulletCollide.bind(this), null, this);
-        game.physics.collide(this.localPlayer.sprite, projectileGroup, this.bulletHandler.bind(this), null, this);
+        //game.physics.collide(this.localPlayer.sprite, projectileGroup, this.bulletHandler.bind(this), null, this);
 
         var playerData = this.localPlayer.update();
 
