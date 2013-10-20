@@ -5,9 +5,10 @@ define([
     "entities/localPlayer",
     "entities/remotePlayer",
     "socketio",
-    "entities/playerPool"
+    "entities/playerPool",
+    "entities/projectilePool"
 ],
-function (Phaser, localPlayer, remotePlayer, io, playerPool) {
+function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
 
     var width = 800;
     var height = 640;
@@ -62,19 +63,18 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
         }
     });
 
+    socket.on("newProjectile", function (data) {
+        startX = data.startX;
+        startY = data.startY;
+        rotation = data.rotation;
+    });
+
     socket.on("playerdied", function (data) {
 
         var leftId = data.id;
         var leftPlayer = playerPool.removePlayer(leftId);
-        if (leftPlayer) {
-            leftPlayer.sprite.destroy();
-
-            if (myPlayer.id == leftId) {
-                myPlayer.isDead = true;
-            }
-
-            otherPlayerGroup.remove(myPlayer.sprite);
-        }
+        killPlayer(leftPlayer);
+       
     });
 
     var map;
@@ -97,6 +97,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
     function init() {
 
         otherPlayerGroup = game.add.group();
+        projectileGroup = game.add.group();
 
         game.load.tilemap('desert', 'assets/maps/collision.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tileset('tiles', 'assets/tiles/smb_tiles.png', 16, 16);
@@ -114,11 +115,10 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
 
         map = game.add.tilemap('desert');
 
-        bullets = game.add.group();
-        bullets.createMultiple(50, 'projectile');
-        bullets.setAll('anchor.x', 0.5);
-        bullets.setAll('anchor.y', 0.5);
-        bullets.setAll('outOfBoundsKill', true);
+        projectileGroup.createMultiple(50, 'projectile');
+        projectileGroup.setAll('anchor.x', 0.5);
+        projectileGroup.setAll('anchor.y', 0.5);
+        projectileGroup.setAll('outOfBoundsKill', true);
                 
         tileset = game.add.tileset('tiles');
 
@@ -151,32 +151,64 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool) {
         myPlayer.update();
 
         
-        game.physics.collide(myPlayer.sprite, bullets, bulletHandler, null, this);
+        game.physics.collide(myPlayer.sprite, projectileGroup, bulletHandler, null, this);
 
         if (game.input.activePointer.isDown) {
-            createProjectile();
+            playerClick();
         }
     }
 
     function bulletHandler(_player, _bullet) {
         player = _player;
+        projectilePool.removeProjectile(_bullet);
+
         _bullet.kill();
     }
 
-    function createProjectile() {
-        if (game.time.now > nextFire && bullets.countDead() > 0) {
+    function playerClick() {
+        if (game.time.now > nextFire && projectileGroup.countDead() > 0) {
             nextFire = game.time.now + fireRate;
 
             mouseX = game.input.x; mouseY = game.input.y;
 
-            var bullet = bullets.getFirstDead();
             var offSetX = -30 * myPlayer.sprite.scale.x;
-            var offSetY = -20;
+            var offSetY = 10 - (myPlayer.sprite.body.height / 2);
+            
             if (mouseY > myPlayer.sprite.y)
-                var offSetY = 20;
-            bullet.reset(myPlayer.sprite.x + offSetX, myPlayer.sprite.y + offSetY);
+                offSetY = 10;
 
+            startX = myPlayer.sprite.x + offSetX;
+            startY = myPlayer.sprite.y + offSetY;
+            var bullet = projectileGroup.getFirstDead();
+            bullet.reset(startX, startY);
             bullet.rotation = game.physics.moveToPointer(bullet, 600);
+
+            myPlayer.socket.emit("newProjectile", {
+                startX: startX,
+                startY: startY,
+                rotation: bullet.rotation
+            });
+            
+            projectilePool.addProjectile(bullet);
+        }
+    }
+
+    function createBullet(x, y, rot) {
+        var bullet = projectileGroup.getFirstDead();
+        bullet.reset(x, y);
+        bullet.rotation = rot;
+        projectilePool.addProjectile(bullet);
+    }
+
+    function killPlayer(leftPlayer) {
+        if (leftPlayer) {
+            leftPlayer.sprite.destroy();
+
+            if (myPlayer.id == leftId) {
+                myPlayer.isDead = true;
+            }
+
+            otherPlayerGroup.remove(myPlayer.sprite);
         }
     }
 
