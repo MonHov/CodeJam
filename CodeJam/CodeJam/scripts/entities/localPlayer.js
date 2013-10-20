@@ -32,14 +32,12 @@ define(["entities/player", "managers/projectileManager", "phaser"], function (pl
 
         if (this.keyboard.isDown(Phaser.Keyboard.RIGHT) || this.keyboard.isDown(Phaser.Keyboard.D)) {
             this.sprite.body.velocity.x = 225;
-            this.sprite.animations.play('walk', 15, false);
         } else if (this.keyboard.justReleased(Phaser.Keyboard.RIGHT) || this.keyboard.justReleased(Phaser.Keyboard.D)) {
             this.sprite.body.acceleration.x = 0;
         }
 
         if (this.keyboard.isDown(Phaser.Keyboard.LEFT) || this.keyboard.isDown(Phaser.Keyboard.A)) {
             this.sprite.body.velocity.x = -225;
-            this.sprite.animations.play('walk', 15, false);
         } else if (this.keyboard.justReleased(Phaser.Keyboard.LEFT) || this.keyboard.justReleased(Phaser.Keyboard.A)) {
             this.sprite.body.acceleration.x = 0;
         }
@@ -57,6 +55,12 @@ define(["entities/player", "managers/projectileManager", "phaser"], function (pl
                     this.sprite.body.velocity.y = -500;
                 }
             }
+        }
+
+        if (Math.abs(this.sprite.body.velocity.x) > 10) {
+            this.sprite.animations.play('walk', 15, false);
+        }else{
+            this.sprite.animations.play('idle', 1, true);
         }
 
         if (this.game.input.activePointer.isDown) {

@@ -51,15 +51,13 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         game.load.tilemap('desert', 'assets/maps/collision.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.tileset('tiles', 'assets/tiles/smb_tiles.png', 16, 16);
 
-        //game.stage.disablePauseScreen = true;
-        //game.load.image('mario', 'assets/player.mario.png');
-        //game.load.image('otis-small', 'assets/player.otis.small.png');
+        game.stage.disablePauseScreen = true;
 
         //load the projectile
         game.load.image('projectile', 'assets/projectile.png');
-        game.load.spritesheet('entities', 'assets/spritesheet.png', 32, 32, 9);
-
         
+        //load Edgar
+        game.load.spritesheet('edgar', 'assets/spritesheet_edgar.png', 32, 32, 9);
 
     };
 
@@ -81,8 +79,10 @@ function (Phaser, NetworkManager, ProjectileManager, PlayerPool, LocalPlayer, Re
         this.layer.resizeWorld();
 
         //var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 200, 'mario');
-        var playerSprite = game.add.sprite(game.stage.width * 0.5 - 16, 180, 'entities');
-        playerSprite.animations.add('walk');
+        var playerSprite = game.add.sprite(game.stage.width * 0.5 - 50, 180, 'edgar');
+        playerSprite.animations.add('idle',[0])
+        playerSprite.animations.add('walk',[1,2,3,4,5,6,7,8]);
+
         this.localPlayer = new LocalPlayer(playerSprite, game, this.playerId);
         PlayerPool.addPlayer(this.playerId, this.localPlayer);
 
