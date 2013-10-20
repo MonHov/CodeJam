@@ -67,6 +67,7 @@ function (Phaser, localPlayer, remotePlayer, io, playerPool, projectilePool) {
         startX = data.startX;
         startY = data.startY;
         rotation = data.rotation;
+        createBullet(startX, startY, rotation);
     });
 
     socket.on("playerdied", function (data) {
