@@ -194,7 +194,7 @@ function (Phaser, NetworkManager, PlayerPool, LocalPlayer, RemotePlayer, Project
     GamePlayState.prototype.playerJoin = function (joinedPlayerInfo) {
         console.log('someone joined', joinedPlayerInfo);
         var player = PlayerPool.getPlayer(joinedPlayerInfo.id);
-        if (!player && player !== this.localPlayer) {
+        if (!player && player.id !== this.localPlayer.id) {
             this.createRemotePlayer(joinedPlayerInfo.id);
         }
     };
